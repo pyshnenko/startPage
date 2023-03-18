@@ -4,16 +4,16 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
 interface InpData {
-    setUser: ()=>{},
+    setUser: (value: object) => void,
     user: object
   };
   
 
-export default function Menu({setUser, user}: any) {
+export default function Menu({setUser, user}: InpData) {
     console.log(typeof(setUser))
     return (
         <div>
-            <Paper elevation={24}>
+            <Paper sx={{margin: 3, padding: 2}} elevation={12}>
                 <Typography>Домашняя страница</Typography>
             </Paper>
         </div>

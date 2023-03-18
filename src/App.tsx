@@ -17,6 +17,18 @@ function App() {
       const handleResize = (event: any) => {
           setWidth(event.target.innerWidth);
       };
+
+      const themeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+      const handleSetTheme = (theme: boolean) => {
+        console.log(theme);
+        setDarkMode(theme)
+      }
+
+      themeMediaQuery.addEventListener('change', function (event) {
+        handleSetTheme(event.matches)
+      })
+
       window.addEventListener('resize', handleResize);
           return () => {
               window.removeEventListener('resize', handleResize);
@@ -26,20 +38,15 @@ function App() {
   
   const darkTheme = createTheme({
     palette: {
-      mode: 'dark',
-    },
-  });
-  const lightTheme = createTheme({
-    palette: {
-      mode: 'light',
+      mode: darkMode?'dark':'light',
     },
   });
 
   return (
-    <ThemeProvider theme={darkMode?darkTheme:lightTheme}>
-      <Box sx={{backgroundColor: darkMode? darkTheme.palette.background.default : lightTheme.palette.background.default}}>
+    <ThemeProvider theme={darkTheme}>
+      <Box sx={{backgroundColor: darkTheme.palette.background.default }}>
         <div className="App">
-          {(width>600)&&<Menu setState={setState} darkTheme={darkMode?darkTheme: lightTheme} />}
+          <Menu width={width} setState={setState} darkTheme={darkTheme} />
           {state===''&&<HomePage user={user} setUser={setUser} />}
         </div>
       </Box>
