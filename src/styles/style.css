@@ -1,0 +1,235 @@
+html, body, #root, #root>div, .App {
+    width: 100%;
+    height: 100%;
+}
+
+.aClass {
+    z-index: 10;
+    text-decoration: none;
+    animation: centrb 0.4s forwards;
+}
+
+.aClass:hover {
+    z-index: 999;
+    animation: centr 0.1s forwards;
+}
+
+.aClass:hover #img{
+    animation: hid 0.1s forwards;
+}
+
+.aClass:hover img{
+    animation: hid 0.1s forwards;
+}
+.aClass:hover .h1D{
+    animation: ofHid 0.1s 0.1s forwards;
+}
+
+.aClassW {
+    z-index: 10;
+    text-decoration: none;
+    animation: centrbW 0.4s forwards;
+}
+
+.aClassW:hover {
+    z-index: 999;
+    animation: centrW 0.1s forwards;
+}
+
+.aClassW:hover #img{
+    animation: hid 0.1s forwards;
+}
+
+.aClassW:hover img{
+    animation: hid 0.1s forwards;
+}
+.aClassW:hover .h1W{
+    animation: ofHid 0.1s 0.1s forwards;
+}
+
+.h1D, .h1W {
+    color: white;
+    font-family: sans-serif;
+    font-size: large;
+    opacity: 0;
+    position: relative;
+    top: -46px;
+}
+.h1W {
+    color: dimgray;
+    opacity: 0;
+}
+
+#doubleString {
+    top: -56px;
+}
+
+img {
+    zoom: 0.4;
+    position: relative;
+}
+
+.barD, .barW {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 2px solid white;
+    border-radius: 50px;
+    box-shadow: 0 0 10px white;
+    margin: 20px;
+    animation: pulse 10s ease-in-out infinite;
+}
+
+.barW {
+    border: 2px solid dimgray;
+    box-shadow: 0 0 10px dimgray;
+    animation: pulsW 10s ease-in-out infinite;
+}
+
+.button {
+    width: 100px;
+    height: 40px;
+    margin: 10px 5px;
+    text-align: center;
+}
+
+#fullBar {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/*скругления 1 и последнего элемента*/
+.barD a:first-child {
+    border-radius: 50px 0 0 50px;
+}
+
+.barD a:last-child {
+    border-radius: 0 50px 50px 0;
+}
+
+.barD a:first-child>div>.h1D {
+    border-radius: 50px 0 0 50px;
+}
+
+.barD a:last-child>div>.h1D {
+    border-radius: 0 50px 50px 0;
+}
+.barW a:first-child {
+    border-radius: 50px 0 0 50px;
+}
+
+.barW a:last-child {
+    border-radius: 0 50px 50px 0;
+}
+
+.barW a:first-child>div>.h1D {
+    border-radius: 50px 0 0 50px;
+}
+
+.barW a:last-child>div>.h1D {
+    border-radius: 0 50px 50px 0;
+}
+
+/*Анимация группы A*/
+
+@keyframes ofHid {
+    0% {        
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes hid {
+    from {
+      opacity: 1;
+    }
+  
+    to {
+      opacity: 0;
+    }
+}
+
+@keyframes centr {
+    0% {
+        background-color: black;
+        box-shadow: 0 0 0px black;
+    }
+    100% {
+        background-color: #1f1e1e;
+        box-shadow: 0 0 10px #1f1e1e;
+    }
+}
+
+@keyframes centrb {
+    100% {
+        background-color: black;
+        box-shadow: 0 0 0px black;
+    }
+    0% {
+        background-color: #1f1e1e;
+        box-shadow: 0 0 10px #1f1e1e;
+    }
+}
+
+@keyframes centrW {
+    0% {
+        background-color: white;
+        box-shadow: 0 0 0px white;
+    }
+    100% {
+        background-color: #E0E1E1;
+        box-shadow: 0 0 10px #E0E1E1;
+    }
+}
+
+@keyframes centrbW {
+    100% {
+        background-color: white;
+        box-shadow: 0 0 0px white;
+    }
+    0% {
+        background-color: #E0E1E1;
+        box-shadow: 0 0 10px #E0E1E1;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: -5px 0 5px white;
+    }
+    25% {
+        box-shadow: 0px 0 10px white;
+    }
+    50% {
+        box-shadow: 5px 0px 5px white;
+    }
+    75% {
+        box-shadow: 0px 0 10px white;
+    }
+    100% {
+        box-shadow: -5px 0 5px white;
+    }
+}
+
+@keyframes pulseW {
+    0% {
+        box-shadow: -5px 0 5px black;
+    }
+    25% {
+        box-shadow: 0px 0 10px black;
+    }
+    50% {
+        box-shadow: 5px 0px 5px black;
+    }
+    75% {
+        box-shadow: 0px 0 10px black;
+    }
+    100% {
+        box-shadow: -5px 0 5px black;
+    }
+}
