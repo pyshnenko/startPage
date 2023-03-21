@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent } from 'react';
+import React, { useState, useEffect, MouseEvent } from 'react';
 import '../styles/style.css';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
@@ -39,6 +39,16 @@ export default function MenuS(props: InpData) {
     const open = Boolean(anchorEl);
     const menuPos = ['Домой', 'Minio', 'Блокнотик', 'Старые проекты', 'Настройки', 'Обо мне'];
 
+    /*useEffect(()=>{
+        const handleClickMenu = (state: string) => {
+            console.log(state);
+            setState(state);
+        }
+        const button = document.getElementById('homeButton');
+        button.addEventListener('click', ()=>handleClickMenu(''));
+
+    }, [width])*/
+
     const toggleDrawer = (open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
         if (
@@ -75,7 +85,7 @@ export default function MenuS(props: InpData) {
         >
             <List>
                 <ListItem key={menuPos[0]} disablePadding>
-                    <ListItemButton onClick={()=>{window.location.assign(homeAdr)}}>
+                    <ListItemButton onClick={()=>{setState('')}}>
                         <ListItemIcon>
                             <HomeIcon />
                         </ListItemIcon>
@@ -134,10 +144,10 @@ export default function MenuS(props: InpData) {
         <div>
             {width>600 ? <div id="fullBar">
                 <div className={darkTheme.palette.mode==='dark'?"barD":"barW"} id="firstBar">
-                    <a className={darkTheme.palette.mode==='dark'?"aClass":"aClassW"} href={homeAdr}><div className="button">
+                    <div className={darkTheme.palette.mode==='dark'?"aClass":"aClassW"} onClick={()=>setState('')}><div className="button">
                         <HomeIcon sx={imgStyle} id="img" />
                         <h1 className={darkTheme.palette.mode==='dark'?"h1D":"h1W"}>Домой</h1>
-                    </div></a>
+                    </div></div>
                     <a className={darkTheme.palette.mode==='dark'?"aClass":"aClassW"} href={s3Adr}><div className="button">
                         <CloudUploadIcon sx={imgStyle} id="img" />
                         <h1 className={darkTheme.palette.mode==='dark'?"h1D":"h1W"}>Minio</h1>
@@ -146,18 +156,18 @@ export default function MenuS(props: InpData) {
                         <EventNoteIcon sx={imgStyle} id="img" />
                         <h1 className={darkTheme.palette.mode==='dark'?"h1D":"h1W"}>Блокнотик</h1>
                     </div></a>
-                    <a className={darkTheme.palette.mode==='dark'?"aClass":"aClassW"} href="/"><div className="button">                   
+                    <div className={darkTheme.palette.mode==='dark'?"aClass":"aClassW"} onClick={()=>setState('old')}><div className="button">                   
                         <ElderlyIcon sx={imgStyle} id="img" />
                         <h1 className={darkTheme.palette.mode==='dark'?"h1D":"h1W"} id="doubleString">Старые проекты</h1>
-                    </div></a>
-                    <a className={darkTheme.palette.mode==='dark'?"aClass":"aClassW"} href="/"><div className="button">                 
+                    </div></div>
+                    <div className={darkTheme.palette.mode==='dark'?"aClass":"aClassW"} onClick={()=>setState('settings')}><div className="button">                 
                         <BuildIcon sx={imgStyle} id="img" />                    
                         <h1 className={darkTheme.palette.mode==='dark'?"h1D":"h1W"}>Настройки</h1>
-                    </div></a>
-                    <a className={darkTheme.palette.mode==='dark'?"aClass":"aClassW"} href="/"><div className="button">                            
+                    </div></div>
+                    <div className={darkTheme.palette.mode==='dark'?"aClass":"aClassW"} onClick={()=>setState('about')}><div className="button">                            
                         <PersonIcon sx={imgStyle} id="img" />                    
                         <h1 className={darkTheme.palette.mode==='dark'?"h1D":"h1W"}>Обо мне</h1>
-                    </div></a>
+                    </div></div>
                 </div>
             </div> :
             <div>

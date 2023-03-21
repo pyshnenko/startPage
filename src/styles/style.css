@@ -4,6 +4,7 @@ html, body, #root, #root>div, .App {
 }
 
 .aClass {
+    cursor: default;
     z-index: 10;
     text-decoration: none;
     animation: centrb 0.4s forwards;
@@ -26,6 +27,7 @@ html, body, #root, #root>div, .App {
 }
 
 .aClassW {
+    cursor: default;
     z-index: 10;
     text-decoration: none;
     animation: centrbW 0.4s forwards;
@@ -102,34 +104,34 @@ img {
 }
 
 /*скругления 1 и последнего элемента*/
-.barD a:first-child {
+.barD div:first-child {
     border-radius: 50px 0 0 50px;
 }
 
-.barD a:last-child {
+.barD div:last-child {
     border-radius: 0 50px 50px 0;
 }
 
-.barD a:first-child>div>.h1D {
+.barD div:first-child>div>.h1D {
     border-radius: 50px 0 0 50px;
 }
 
-.barD a:last-child>div>.h1D {
+.barD div:last-child>div>.h1D {
     border-radius: 0 50px 50px 0;
 }
-.barW a:first-child {
+.barW div:first-child {
     border-radius: 50px 0 0 50px;
 }
 
-.barW a:last-child {
+.barW div:last-child {
     border-radius: 0 50px 50px 0;
 }
 
-.barW a:first-child>div>.h1D {
+.barW div:first-child>div>.h1D {
     border-radius: 50px 0 0 50px;
 }
 
-.barW a:last-child>div>.h1D {
+.barW div:last-child>div>.h1D {
     border-radius: 0 50px 50px 0;
 }
 
