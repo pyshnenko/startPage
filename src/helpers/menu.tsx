@@ -26,13 +26,15 @@ import ListItemText from '@mui/material/ListItemText';
 
 interface InpData {
     setState: (value: string) => void,
+    login: boolean,
+    setLogin: (value: boolean) => void,
     darkTheme: {palette: {mode: string}},
     width: number
 };
 
 export default function MenuS(props: InpData) {
 
-    let {setState, darkTheme, width} = props;
+    let {setState, login, setLogin, darkTheme, width} = props;
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [menuState, setMenuState] = useState<boolean>(false);
@@ -175,7 +177,7 @@ export default function MenuS(props: InpData) {
                     <IconButton onClick={()=>setMenuState(!menuState)}>
                         <MenuIcon />
                     </IconButton>
-                    {false&&<Tooltip title="Account settings">
+                    {login&&<Tooltip title="Account settings">
                         <IconButton
                             onClick={handleClick}
                             size="small"

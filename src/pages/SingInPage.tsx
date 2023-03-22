@@ -8,13 +8,14 @@ import Button from '@mui/material/Button';
 interface InpData {
     state: string,
     setState: (value: string) => void,
-    setUser: (value: object) => void,
+    setLogin: (value: boolean) => void,
+    setUser: (value: any) => void,
     user: object,
     api: any
 };
   
 
-export default function SingInPage({state, setState, setUser, user, api}: InpData) {
+export default function SingInPage({state, setState, setLogin, setUser, user, api}: InpData) {
 
     const [ logData, setLogData ] = useState<{login: string, pass: string}>({login: '', pass: ''});
     const [ errorMess, setErrorMess ] = useState<boolean>(false);
@@ -36,11 +37,15 @@ export default function SingInPage({state, setState, setUser, user, api}: InpDat
         else {
             setErrorMess(false);
             let res = api.sendPost(data, 'login', '');
-            res.then((result: {status: number})=>{
+            res.then((result: {status: number, data: {token: string, data: any}})=>{
                 console.log(result);
                 if (result.status===200) {
                     console.log(result);
+                    setUser(result.data.data[0]);
+                    localStorage.setItem('listToken', result.data.token);
+                    localStorage.setItem('listGState', JSON.stringify({login: true, state: 'home'}));
                     setState('home');
+                    setLogin(true);
                 }
                 else setErrorMess(true);
             });

@@ -10,7 +10,6 @@ interface InpData {
   
 
 export default function Menu({setUser, user}: InpData) {
-    console.log(typeof(setUser))
     return (
         <div>
             <Paper sx={{margin: 3, padding: 2}} elevation={12}>

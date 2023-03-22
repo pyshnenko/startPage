@@ -1,0 +1,32 @@
+#black {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #121212;
+    z-index: 0;
+    opacity: 0;    
+    animation: bTOw 1s forwards;
+}
+
+@keyframes bTOw {
+    100% {
+        z-index: 0;
+        opacity: 0;
+    }
+    99%{
+        z-index: 100;
+    }
+    50% {
+        opacity: 1;
+    }
+    0% {
+        z-index: 100;
+        opacity: 0;
+    }
+}
+
+#aboutPaper {
+    background-image: linear-gradient(to bottom, #d4d5ce 10%, #ece7e2 30%, #ece7e2 70%, #a4a09b);
+}

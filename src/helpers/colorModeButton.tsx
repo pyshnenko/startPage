@@ -6,16 +6,40 @@ import IconButton from '@mui/material/IconButton';
 interface InpData {
     setDarkMode: (value: boolean) => void,
     darkMode: boolean,
-    width: number
+    width: number,
+    visual: boolean,
+    setVisual: (value: boolean) => void
 };
 
 export default function ColButton(props: InpData) {
-    let {width, darkMode, setDarkMode} = props;
+    let {width, darkMode, setDarkMode, visual, setVisual} = props;
+
+    const [ active, setActive ] = useState<boolean>(true);
+
+    const colorEdit = () => {
+        setVisual(true);
+        setActive(false);
+
+        const visF = () => {
+            setVisual(false);
+            setActive(true);
+        }
+
+        setTimeout(visF, 1000);
+
+        const colSet = () => {
+            setDarkMode(!darkMode);
+        }
+
+        setTimeout(colSet, 500);
+
+    }
+
     return (
-        <Box sx={{ position: 'fixed', top: width>800? '10px': width<600? 0:'100px', left: width<600?'auto':0, right: width<600?0:'auto' }}>
-            <IconButton component="label" onClick={()=>setDarkMode(!darkMode)}>
+        <Box sx={{ position: 'fixed', top: width>800? 0:'auto', bottom: width>800 ? 'auto' : '0', left: 0 }}>
+            {active&&<IconButton component="label" onClick={colorEdit}>
                 <EmojiObjectsIcon sx={{ zoom: width<600?1.5:2 }} />
-            </IconButton>
+            </IconButton>}
         </Box>
     );
 }
