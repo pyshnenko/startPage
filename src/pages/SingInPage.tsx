@@ -4,10 +4,11 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import Grow from '@mui/material/Grow';
+import {getGrowIn} from '../mech/mechanic';
+import {stateSettings} from '../mech/mechanic';
 
 interface InpData {
-    state: string,
-    setState: (value: string) => void,
     setLogin: (value: boolean) => void,
     setUser: (value: any) => void,
     user: object,
@@ -15,11 +16,12 @@ interface InpData {
 };
   
 
-export default function SingInPage({state, setState, setLogin, setUser, user, api}: InpData) {
+export default function SingInPage({setLogin, setUser, user, api}: InpData) {
 
     const [ logData, setLogData ] = useState<{login: string, pass: string}>({login: '', pass: ''});
     const [ errorMess, setErrorMess ] = useState<boolean>(false);
     const [ errorNet, setErrorNet ] = useState<boolean>(false);
+    let grow = getGrowIn();
 
     const formData = (event: React.FormEvent<HTMLFormElement>) => {
         
@@ -38,13 +40,11 @@ export default function SingInPage({state, setState, setLogin, setUser, user, ap
             setErrorMess(false);
             let res = api.sendPost(data, 'login', '');
             res.then((result: {status: number, data: {token: string, data: any}})=>{
-                console.log(result);
                 if (result.status===200) {
-                    console.log(result);
                     setUser(result.data.data[0]);
                     localStorage.setItem('listToken', result.data.token);
                     localStorage.setItem('listGState', JSON.stringify({login: true, state: 'home'}));
-                    setState('home');
+                    stateSettings('home');
                     setLogin(true);
                 }
                 else setErrorMess(true);
@@ -58,24 +58,26 @@ export default function SingInPage({state, setState, setLogin, setUser, user, ap
 
     return (
         <Box sx={{width: '100%', display: 'flex', justifyContent: 'center'}}>
-            <Paper sx={{margin: 3, padding: 2, width: '300px'}} elevation={12}>
-                <Box component="form" onSubmit={formData}>
-                    {errorMess&&<Typography sx={{color: 'red'}}>Некорректные данные</Typography>}
-                    {errorNet&&<Typography sx={{color: 'red'}}>Нет интернета</Typography>}
-                    {!errorMess&&<Typography>Давай авторизуемся</Typography>}
-                    <Box>
-                        <TextField error={errorMess} label="Логин" variant="standard" name='login' />
-                        <TextField error={errorMess} type="password" label="Пароль" variant="standard" name='pass' />
-                    </Box>
-                    <Box>
+            <Grow in={grow}>
+                <Paper sx={{margin: 3, padding: 2, width: '300px'}} elevation={12}>
+                    <Box component="form" onSubmit={formData}>
+                        {errorMess&&<Typography sx={{color: 'red'}}>Некорректные данные</Typography>}
+                        {errorNet&&<Typography sx={{color: 'red'}}>Нет интернета</Typography>}
+                        {!errorMess&&<Typography>Давай авторизуемся</Typography>}
                         <Box>
-                            <Button type='submit' sx={{margin:1}} color="success" variant="contained">Вход</Button>
-                            <Button onClick={() => setState('register')} sx={{margin:1}} color="primary" variant="contained">Регистрация</Button>
+                            <TextField error={errorMess} label="Логин" variant="standard" name='login' />
+                            <TextField error={errorMess} type="password" label="Пароль" variant="standard" name='pass' />
                         </Box>
-                            <Button onClick={() => setState('unlog')} color="secondary" variant="outlined">Гостевой режим</Button>
+                        <Box>
+                            <Box>
+                                <Button type='submit' sx={{margin:1}} color="success" variant="contained">Вход</Button>
+                                <Button onClick={() => stateSettings('register')} sx={{margin:1}} color="primary" variant="contained">Регистрация</Button>
+                            </Box>
+                                <Button onClick={() => stateSettings('unlog')} color="secondary" variant="outlined">Гостевой режим</Button>
+                        </Box>
                     </Box>
-                </Box>
-            </Paper>
+                </Paper>
+            </Grow>
         </Box>
     );
 }

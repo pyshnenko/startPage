@@ -23,9 +23,10 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
+import {stateSettings} from '../mech/mechanic';
 
 interface InpData {
-    setState: (value: string) => void,
+    stateSetter: any,   
     login: boolean,
     setLogin: (value: boolean) => void,
     darkTheme: {palette: {mode: string}},
@@ -34,22 +35,12 @@ interface InpData {
 
 export default function MenuS(props: InpData) {
 
-    let {setState, login, setLogin, darkTheme, width} = props;
+    let {stateSetter, login, setLogin, darkTheme, width} = props;
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [menuState, setMenuState] = useState<boolean>(false);
     const open = Boolean(anchorEl);
     const menuPos = ['Домой', 'Minio', 'Блокнотик', 'Старые проекты', 'Настройки', 'Обо мне'];
-
-    /*useEffect(()=>{
-        const handleClickMenu = (state: string) => {
-            console.log(state);
-            setState(state);
-        }
-        const button = document.getElementById('homeButton');
-        button.addEventListener('click', ()=>handleClickMenu(''));
-
-    }, [width])*/
 
     const toggleDrawer = (open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -87,7 +78,7 @@ export default function MenuS(props: InpData) {
         >
             <List>
                 <ListItem key={menuPos[0]} disablePadding>
-                    <ListItemButton onClick={()=>{setState('')}}>
+                    <ListItemButton onClick={()=>{stateSettings('')}}>
                         <ListItemIcon>
                             <HomeIcon />
                         </ListItemIcon>
@@ -111,7 +102,7 @@ export default function MenuS(props: InpData) {
                     </ListItemButton>
                 </ListItem>
                 <ListItem key={menuPos[3]} disablePadding>
-                    <ListItemButton onClick={()=>setState('old')}>
+                    <ListItemButton onClick={()=>stateSettings('old')}>
                         <ListItemIcon>
                             <ElderlyIcon />
                         </ListItemIcon>
@@ -119,7 +110,7 @@ export default function MenuS(props: InpData) {
                     </ListItemButton>
                 </ListItem>
                 <ListItem key={menuPos[4]} disablePadding>
-                    <ListItemButton onClick={()=>setState('settings')}>
+                    <ListItemButton onClick={()=>stateSettings('settings')}>
                         <ListItemIcon>
                             <BuildIcon />
                         </ListItemIcon>
@@ -127,7 +118,7 @@ export default function MenuS(props: InpData) {
                     </ListItemButton>
                 </ListItem>
                 <ListItem key={menuPos[5]} disablePadding>
-                    <ListItemButton onClick={()=>setState('about')}>
+                    <ListItemButton onClick={()=>stateSettings('about')}>
                         <ListItemIcon>
                             <PersonIcon />
                         </ListItemIcon>
@@ -146,7 +137,7 @@ export default function MenuS(props: InpData) {
         <div>
             {width>600 ? <div id="fullBar">
                 <div className={darkTheme.palette.mode==='dark'?"barD":"barW"} id="firstBar">
-                    <div className={darkTheme.palette.mode==='dark'?"aClass":"aClassW"} onClick={()=>setState('')}><div className="button">
+                    <div className={darkTheme.palette.mode==='dark'?"aClass":"aClassW"} onClick={()=>stateSettings('')}><div className="button">
                         <HomeIcon sx={imgStyle} id="img" />
                         <h1 className={darkTheme.palette.mode==='dark'?"h1D":"h1W"}>Домой</h1>
                     </div></div>
@@ -158,15 +149,15 @@ export default function MenuS(props: InpData) {
                         <EventNoteIcon sx={imgStyle} id="img" />
                         <h1 className={darkTheme.palette.mode==='dark'?"h1D":"h1W"}>Блокнотик</h1>
                     </div></a>
-                    <div className={darkTheme.palette.mode==='dark'?"aClass":"aClassW"} onClick={()=>setState('old')}><div className="button">                   
+                    <div className={darkTheme.palette.mode==='dark'?"aClass":"aClassW"} onClick={()=>stateSettings('old')}><div className="button">                   
                         <ElderlyIcon sx={imgStyle} id="img" />
                         <h1 className={darkTheme.palette.mode==='dark'?"h1D":"h1W"} id="doubleString">Старые проекты</h1>
                     </div></div>
-                    <div className={darkTheme.palette.mode==='dark'?"aClass":"aClassW"} onClick={()=>setState('settings')}><div className="button">                 
+                    <div className={darkTheme.palette.mode==='dark'?"aClass":"aClassW"} onClick={()=>stateSettings('settings')}><div className="button">                 
                         <BuildIcon sx={imgStyle} id="img" />                    
                         <h1 className={darkTheme.palette.mode==='dark'?"h1D":"h1W"}>Настройки</h1>
                     </div></div>
-                    <div className={darkTheme.palette.mode==='dark'?"aClass":"aClassW"} onClick={()=>setState('about')}><div className="button">                            
+                    <div className={darkTheme.palette.mode==='dark'?"aClass":"aClassW"} onClick={()=>stateSettings('about')}><div className="button">                            
                         <PersonIcon sx={imgStyle} id="img" />                    
                         <h1 className={darkTheme.palette.mode==='dark'?"h1D":"h1W"}>Обо мне</h1>
                     </div></div>
