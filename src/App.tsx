@@ -39,25 +39,26 @@ function App() {
         if (locData!=='null' && locData!==null && locData !== '') {
           let buf: {login: boolean, state: string};
           buf = JSON.parse(locData);
-          if (buf.login) {
-            stateSetter(buf.state)
-          }
           locData = '';
           locData += localStorage.getItem('listToken');
           if (locData!=='') {
             if (!login) {
+              console.log('upD')
               const answ = api.sendPost({}, 'login', `Bearer ${locData}`);
               answ.then((res: any)=>{
                 if (res?.status!==200) {
                   setLogin(false);
                   setToken('');
                   setUser({});
+                  stateSetter('');
                   localStorage.clear();
                 }
                 else {
                   setUser(res.data.data[0]);
-                  setLogin(true);
+                  stateSetter(buf.state);
                   setToken(locData);
+                  setLogin(true);
+                  console.log('data upd')
                 }
               })
             }
@@ -95,7 +96,7 @@ function App() {
       let sBuf: {login: boolean, state: string} = {login: login, state: state};
       localStorage.setItem('listGState', JSON.stringify(sBuf))
     }
-  }, [state])
+  }, [state]);
   
   const darkTheme = createTheme({
     palette: {
@@ -111,7 +112,7 @@ function App() {
           {true&&<Menu stateSetter={stateSetter} width={width} darkTheme={darkTheme} login={login} setLogin={setLogin} />}
           <ColorModeButton width={width} darkMode={darkMode} setDarkMode={setDarkMode} visual={visual} setVisual={setVisual} />
           {state===''&&<SingInPage setUser={setUser} user={user} api={api} setLogin={setLogin} />}
-          {state==='home'&&<HomePage user={user} setUser={setUser} api={api} darkMode={darkMode} width={width} />}
+          {state==='home'&&login&&<HomePage user={user} setUser={setUser} api={api} darkMode={darkMode} width={width} login={login} setLogin={setLogin} />}
           {state==='old'&&<OldPage darkMode={darkMode} width={width} />}
           {state==='about'&&<About darkMode={darkMode} width={width} />}
         </div>

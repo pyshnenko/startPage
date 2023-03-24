@@ -67,23 +67,23 @@ export default function About({darkMode, width}: InpData) {
         <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
             {data.map((item, index)=>
                 <Grow in={grow} timeout={index*1000} key={item.title}>
-                    <Card sx={{ maxWidth: 330, margin: 2, boxShadow: 3 }}>
-                        <CardMedia
-                            sx={{ height: 180 }}
-                            image={item.href}
-                            title={item.title}
-                        />
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" component="div">
-                                {item.title}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">{item.text}</Typography>
-                        </CardContent>
-                        <CardActions sx={{justifyContent: 'space-around'}}>
-                            {item.url!==''&&<Button size="small" onClick={()=>window.location.assign(item.url)}>Перейти</Button>}
-                            <Button size="small" onClick={()=>window.location.assign(item.git)}>Git</Button>
-                        </CardActions>
-                    </Card>
+                        <Card sx={{ maxWidth: 330, margin: 2, boxShadow: 3 }}>
+                            <CardMedia
+                                sx={{ height: 180 }}
+                                image={item.href}
+                                title={item.title}
+                            />
+                            <CardContent>
+                                <Typography gutterBottom variant="h5" component="div">
+                                    {item.title}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">{item.text}</Typography>
+                            </CardContent>
+                            <CardActions sx={{justifyContent: 'space-around'}}>
+                                {item.url!==''&&<Button size="small" onClick={()=>window.location.assign(item.url)}>Перейти</Button>}
+                                <Button size="small" onClick={()=>window.location.assign(item.git)}>Git</Button>
+                            </CardActions>
+                        </Card>
                 </Grow>
             )}
         </Box>

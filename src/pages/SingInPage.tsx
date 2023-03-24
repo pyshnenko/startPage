@@ -73,7 +73,7 @@ export default function SingInPage({setLogin, setUser, user, api}: InpData) {
                                 <Button type='submit' sx={{margin:1}} color="success" variant="contained">Вход</Button>
                                 <Button onClick={() => stateSettings('register')} sx={{margin:1}} color="primary" variant="contained">Регистрация</Button>
                             </Box>
-                                <Button onClick={() => stateSettings('unlog')} color="secondary" variant="outlined">Гостевой режим</Button>
+                                <Button onClick={() => stateSettings('home')} color="secondary" variant="outlined">Гостевой режим</Button>
                         </Box>
                     </Box>
                 </Paper>
