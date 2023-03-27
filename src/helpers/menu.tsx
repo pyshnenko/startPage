@@ -25,17 +25,17 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import {stateSettings} from '../mech/mechanic';
 
-interface InpData {
-    stateSetter: any,   
+interface InpData {  
     login: boolean,
     setLogin: (value: boolean) => void,
     darkTheme: {palette: {mode: string}},
-    width: number
+    width: number,
+    user: any
 };
 
 export default function MenuS(props: InpData) {
 
-    let {stateSetter, login, setLogin, darkTheme, width} = props;
+    let {login, setLogin, darkTheme, width, user} = props;
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [menuState, setMenuState] = useState<boolean>(false);
@@ -59,8 +59,11 @@ export default function MenuS(props: InpData) {
     const handleClick = (event: MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
-    const handleClose = () => {
+    const handleClose = (mode: string | null) => {
         setAnchorEl(null);
+        if (mode==='logOut') setLogin(false);
+        else if (mode==='Settings') stateSettings('settings');
+        else if (mode==='home') stateSettings('home');
     };
 
     let imgStyle = {
@@ -131,7 +134,6 @@ export default function MenuS(props: InpData) {
 
     const listAdr = 'https://spamigor.site/list';
     const s3Adr = 'https://spamigor.site/s3';
-    const homeAdr = 'https://spamigor.site/build';
 
     return (
         <div>
@@ -177,7 +179,13 @@ export default function MenuS(props: InpData) {
                             aria-haspopup="true"
                             aria-expanded={open ? 'true' : undefined}
                         >
-                            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                            <Avatar 
+                                alt={(user.first_name+' '+user.last_name).toLocaleUpperCase()}
+                                src={user.avatar ? user.avatar : ''}
+                                sx={{ width: 32, height: 32 }}
+                            >
+                                {user.avatar ? '' : ((user.name ? user.name[0] : 'ъ')+(user.last_name ? user.last_name[0] : 'Ъ')).toLocaleUpperCase()}
+                            </Avatar>
                         </IconButton>
                     </Tooltip>}
                 </Box>
@@ -185,8 +193,8 @@ export default function MenuS(props: InpData) {
                     anchorEl={anchorEl}
                     id="account-menu"
                     open={open}
-                    onClose={handleClose}
-                    onClick={handleClose}
+                    onClose={()=>handleClose(null)}
+                    onClick={()=>handleClose(null)}
                     PaperProps={{
                     elevation: 0,
                     sx: {
@@ -216,30 +224,30 @@ export default function MenuS(props: InpData) {
                     transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                     anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                 >
-                    <MenuItem onClick={handleClose}>
+                    <MenuItem onClick={()=>handleClose('home')}>
                         <Avatar /> Профиль
                     </MenuItem>
-                    <MenuItem onClick={handleClose}>
+                    <MenuItem onClick={()=>handleClose(null)}>
                         <Avatar /> Что-то
                     </MenuItem>
                     <Divider />
-                    <MenuItem onClick={handleClose}>
+                    <MenuItem onClick={()=>handleClose(null)}>
                         <ListItemIcon>
                             <PersonAdd fontSize="small" />
                         </ListItemIcon>
-                        Add another account
+                        Тут пусто
                     </MenuItem>
-                    <MenuItem onClick={handleClose}>
+                    <MenuItem onClick={()=>handleClose('Settings')}>
                         <ListItemIcon>
                             <Settings fontSize="small" />
                         </ListItemIcon>
-                        Settings
+                        Настройки
                     </MenuItem>
-                    <MenuItem onClick={handleClose}>
+                    <MenuItem onClick={()=>handleClose('logOut')}>
                         <ListItemIcon>
                             <Logout fontSize="small" />
                         </ListItemIcon>
-                        Logout
+                        Выход
                     </MenuItem>
                 </Menu>
                 <div>

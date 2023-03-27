@@ -97,6 +97,16 @@ function App() {
       localStorage.setItem('listGState', JSON.stringify(sBuf))
     }
   }, [state]);
+
+  useEffect(()=>{
+    if ((token!=='')&&(!login)) {
+      setUser({}); 
+      setToken('');
+      stateSettings('');
+      localStorage.setItem('listToken', '')
+      localStorage.setItem('listGState', JSON.stringify({login: false, state: ''}))
+    }
+  }, [login])
   
   const darkTheme = createTheme({
     palette: {
@@ -109,11 +119,11 @@ function App() {
       <Box sx={{backgroundColor: darkTheme.palette.background.default }}>
         {visual&&<Box id="black"></Box>}
         <div className="App">
-          {true&&<Menu stateSetter={stateSetter} width={width} darkTheme={darkTheme} login={login} setLogin={setLogin} />}
+          {true&&<Menu width={width} darkTheme={darkTheme} login={login} setLogin={setLogin} user={user} />}
           <ColorModeButton width={width} darkMode={darkMode} setDarkMode={setDarkMode} visual={visual} setVisual={setVisual} />
           {state===''&&<SingInPage setUser={setUser} user={user} api={api} setLogin={setLogin} />}
           {state==='home'&&login&&<HomePage user={user} setUser={setUser} api={api} darkMode={darkMode} width={width} login={login} setLogin={setLogin} />}
-          {state==='old'&&<OldPage darkMode={darkMode} width={width} />}
+          {state==='old'&&<OldPage darkMode={darkMode} />}
           {state==='about'&&<About darkMode={darkMode} width={width} />}
         </div>
       </Box>

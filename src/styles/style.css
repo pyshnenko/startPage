@@ -66,9 +66,9 @@ html, body, #root, #root>div, .App {
     top: -56px;
 }
 
-img {
-    zoom: 0.4;
-    position: relative;
+#img {
+    /*zoom: 0.4;*/
+    /*position: relative;*/
 }
 
 .barD, .barW {

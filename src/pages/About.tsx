@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
@@ -34,7 +34,7 @@ export default function About({darkMode, width}: InpData) {
                         /></Box>
                         <Typography sx={{marginLeft: width<500?'0px': '30px', fontSize: width<500?'large':'X-large', fontWeight: '800'}}>АНТОН ПЫШНЕНКО</Typography>
                     </Box>
-                    <Typography sx={{ textTransform: 'uppercase', fontWeight: '600' }}>Он же "Толян", н же "Spamigor"</Typography>
+                    <Typography sx={{ textTransform: 'uppercase', fontWeight: '600' }}>Он же Толян, он же Spamigor</Typography>
                     <Typography sx={{ textTransform: 'uppercase', fontWeight: '600' }}>Обладатель карты "Тройка"</Typography>
                     <Typography sx={{ textTransform: 'uppercase', fontWeight: '600' }}>Мало пьёт и всегда недоволен</Typography>
                     <Typography sx={{ textTransform: 'uppercase', fontWeight: '600' }}>Характер скверный</Typography>

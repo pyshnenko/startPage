@@ -142,10 +142,6 @@ export default function Menu({setUser, user, api, darkMode, width, setLogin, log
                             <Typography variant="h5" gutterBottom>{user.role}</Typography>                            
                             <Button variant="outlined" startIcon={<LogoutIcon />} color="primary" onClick={()=>{
                                     setLogin(false); 
-                                    setUser({}); 
-                                    stateSettings('');
-                                    localStorage.setItem('listToken', '')
-                                    localStorage.setItem('listGState', JSON.stringify({login: false, state: ''}))
                                 }}>
                                 Выйти
                             </Button>
