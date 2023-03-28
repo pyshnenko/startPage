@@ -14,6 +14,7 @@ import Button from '@mui/material/Button';
 import { blueGrey, grey, lightBlue, red, yellow, green } from '@mui/material/colors';
 import {getGrowIn} from '../mech/mechanic';
 import {stateSettings} from '../mech/mechanic';
+import { setLoadVisible } from '../mech/mechanic';
 
 interface InpData {
     setUser: (value: any) => void,
@@ -84,6 +85,7 @@ export default function Menu({setUser, user, api, darkMode, width, setLogin, log
     }
 
     const handleClick = async (event: any) => {
+        setLoadVisible(true);
         let data = new FormData();
         data.append('file', event.target.files[0]);
         const options = {
@@ -99,18 +101,22 @@ export default function Menu({setUser, user, api, darkMode, width, setLogin, log
         let result = await api.sendPost({avatar: `https://spamigor.site/${res.addr}`}, 'updUserData', `Bearer ${user.token}`);
         console.log(result.data.data[0]);
         setUser(result.data.data[0]);
+        setLoadVisible(false);
     }
 
     const handleEditClickCheck = async () => {
+        setLoadVisible(true);
         console.log('ready');
         let bufS: EdDataSend = {...edit};
         let res = await api.sendPost(bufS, 'updUserData', `Bearer ${user.token}`);
         setUser(res.data.data[0]);
         setEdit({activate: false, name: user.name, first_name: user.first_name, last_name: user.last_name, email: user.email, telegram: user.telegram});
         console.log(res);
+        setLoadVisible(false);
     }
 
     const handleValidClick = async (evt: any, index: string) => {
+        setLoadVisible(true);
         console.log('valid');
         if (index==='email') {
             console.log(await api.sendPost({}, 'checkMail', `Bearer ${user.token}`));
@@ -123,6 +129,7 @@ export default function Menu({setUser, user, api, darkMode, width, setLogin, log
                 setUser(buf);
             }
         }
+        setLoadVisible(false);
     }
 
     return (

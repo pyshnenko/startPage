@@ -139,7 +139,7 @@ export default function MenuS(props: InpData) {
         <div>
             {width>600 ? <div id="fullBar">
                 <div className={darkTheme.palette.mode==='dark'?"barD":"barW"} id="firstBar">
-                    <div className={darkTheme.palette.mode==='dark'?"aClass":"aClassW"} onClick={()=>stateSettings('')}><div className="button">
+                    <div className={darkTheme.palette.mode==='dark'?"aClass":"aClassW"} onClick={()=>stateSettings('home')}><div className="button">
                         <HomeIcon sx={imgStyle} id="img" />
                         <h1 className={darkTheme.palette.mode==='dark'?"h1D":"h1W"}>Домой</h1>
                     </div></div>

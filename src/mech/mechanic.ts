@@ -31,6 +31,42 @@ function stateExp(value: string) {
 export function getGrowIn() {
     return growInG;
 }
+
+//Для индикатора загрузки
+
+export interface loadTypes {
+    loadState: boolean | undefined,
+    growState: boolean | undefined,
+    setLoadState: (val: boolean)=>void | undefined,
+    setLoadGrow: (val: boolean)=>void | undefined
+}
+let loadOptions: loadTypes;
+
+export function setLoadParams(props: loadTypes) {
+    loadOptions = {...props};
+    return setLoadVisible;
+}
+
+export function setLoadVisible(val: boolean){
+    if (val) {
+        loadOptions.setLoadState(val);
+        loadOptions.setLoadGrow(val);
+    }
+    else {
+        loadOptions.setLoadGrow(val);
+        setTimeout(loadOutDelay, 500);
+    }
+}
+
+export function getLoadVisible() {
+    return loadOptions;
+}
+
+function loadOutDelay() {
+    loadOptions.setLoadState(false);
+}
+
+
 /*
 abstract class AbsMechanics {
     setState: (value: string)=>void;

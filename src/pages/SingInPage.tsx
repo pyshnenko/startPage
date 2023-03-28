@@ -6,7 +6,8 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Grow from '@mui/material/Grow';
 import {getGrowIn} from '../mech/mechanic';
-import {stateSettings} from '../mech/mechanic';
+import { stateSettings } from '../mech/mechanic';
+import { setLoadVisible } from '../mech/mechanic';
 
 interface InpData {
     setLogin: (value: boolean) => void,
@@ -38,6 +39,7 @@ export default function SingInPage({setLogin, setUser, user, api}: InpData) {
         if (!data.login||!data.pass) setErrorMess(true);
         else {
             setErrorMess(false);
+            setLoadVisible(true);
             let res = api.sendPost(data, 'login', '');
             res.then((result: {status: number, data: {token: string, data: any}})=>{
                 if (result.status===200) {
@@ -48,9 +50,11 @@ export default function SingInPage({setLogin, setUser, user, api}: InpData) {
                     setLogin(true);
                 }
                 else setErrorMess(true);
+                setLoadVisible(false);
             });
             res.catch((e: any)=>{
                 console.log('netErr');
+                setLoadVisible(false);
             })
         }
       
@@ -73,7 +77,7 @@ export default function SingInPage({setLogin, setUser, user, api}: InpData) {
                                 <Button type='submit' sx={{margin:1}} color="success" variant="contained">Вход</Button>
                                 <Button onClick={() => stateSettings('register')} sx={{margin:1}} color="primary" variant="contained">Регистрация</Button>
                             </Box>
-                                <Button onClick={() => stateSettings('home')} color="secondary" variant="outlined">Гостевой режим</Button>
+                                <Button onClick={() => stateSettings('guests')} color="secondary" variant="outlined">Гостевой режим</Button>
                         </Box>
                     </Box>
                 </Paper>

@@ -16,13 +16,13 @@
         opacity: 0;
     }
     99%{
-        z-index: 100;
+        z-index: 11000;
     }
     50% {
         opacity: 1;
     }
     0% {
-        z-index: 100;
+        z-index: 11000;
         opacity: 0;
     }
 }

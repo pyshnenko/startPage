@@ -1,0 +1,98 @@
+#image1 {
+    width: 100%;
+    animation: 1s linear 0s normal none infinite running zaloop;
+}
+
+@keyframes zaloop {
+    0% {
+      transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(90deg);
+    }
+    50% {
+        transform: rotate(180deg);
+    }
+    75% {
+        transform: rotate(270deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+#loadingOpacityIn {
+    animation: blackIn 0.5s forwards;
+}
+
+@keyframes blackIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
+
+#loadingOpacityOut {
+    animation: blackIn 0.5s forwards reverse;
+}
+
+.loaderBl, .loaderWh {
+    z-index: 100000;
+    --loader-size: 50px;
+    --loader-border-size: 4px;
+    --loader-border-color: maroon;
+    width: var(--loader-size);
+    height: var(--loader-size);
+    border: var(--loader-border-size) solid var(--loader-border-color);
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    background-color: transparent;
+    border-radius: 50%;
+    position: relative;
+    animation: rotateX 1s infinite linear;
+}
+.loaderWh {
+    --loader-border-color: black;
+}
+  
+.loaderBl::before, .loaderWh::before {
+    content:"";
+    border: var(--loader-border-size) solid var(--loader-border-color);
+    border-top-color: transparent;
+    border-left-color: transparent;
+    border-bottom-color: transparent;
+    background-color: transparent;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    animation: rotateX 0.5s infinite linear reverse;
+}
+          
+@keyframes rotateX {
+    from {
+      transform: rotateZ(0deg);
+    }
+    to {
+      transform: rotateZ(360deg);
+    }
+}
+
+.sqr {
+    width: 120px;
+    aspect-ratio: 1;
+    display: grid;
+    cursor: pointer;
+    z-index: 10010;
+    animation: rotateX 1s infinite linear;
+  }
+  .sqr:before {
+    content:"";
+    background-image: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+    border-radius: 100px;
+  }
