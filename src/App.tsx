@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import './styles/blW.css';
+import './styles/neon.css';
 import Menu from './helpers/menu';
 import ColorModeButton from './helpers/colorModeButton';
 import Loading from './helpers/loading';
@@ -30,6 +31,7 @@ function App() {
   const [ loadState, setLoadState ] = useState(false);
   const [ growState, setLoadGrow ] = useState(true);
   const [ loadingMode, setLoadingMode ] = useState(0);
+  const [ neonOn, setNeonOn ] = useState(true);
   const trig = useRef<boolean>(true)
   let stateSetter = setParams(setState, state, 500, growIn, setGrowIn);
   let loadOptions = setLoadParams({loadState, growState, setLoadState, setLoadGrow})
@@ -39,6 +41,14 @@ function App() {
         trig.current = false;
         //обработка локального хранилища
         let locData: string  = '';
+        locData += localStorage.getItem('listGNeon');
+        if (locData==='false') setNeonOn(false);
+        else setNeonOn(true);
+        locData='';
+        locData += localStorage.getItem('listGColorMode');
+        if (locData==='dark') setDarkMode(true);
+        else if (locData==='light') setDarkMode(false);
+        locData='';
         locData += localStorage.getItem('listGLoadMode');
         if (locData!=='null' && locData!==null && locData !== '') {
           let mode = Number(locData);
@@ -143,8 +153,14 @@ function App() {
           {state==='home'&&login&&<HomePage user={user} setUser={setUser} api={api} darkMode={darkMode} width={width} login={login} setLogin={setLogin} />}
           {state==='old'&&<OldPage darkMode={darkMode} />}
           {state==='about'&&<About darkMode={darkMode} width={width} />}
-          {state==='settings'&&<Settings loadingMode={loadingMode} setLoadingMode={setLoadingMode} darkMode={darkMode} />}
+          {state==='settings'&&<Settings loadingMode={loadingMode} setLoadingMode={setLoadingMode} darkMode={darkMode} setDarkMode={setDarkMode} neonOn={neonOn} setNeonOn={setNeonOn} />}
         </div>
+        {neonOn&&
+          <div id="neonDiv">
+            <h2 id={darkMode?"neonH2F":"neonH2FW"}>Д</h2>
+            <h2 id={darkMode?"neonH2":"neonH2W"}>ызыг</h2>
+            <h2 id={darkMode?"neonH2l":"neonH2lW"}>н</h2>
+          </div>}
       </Box>
     </ThemeProvider>
   );

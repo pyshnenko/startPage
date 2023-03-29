@@ -7,7 +7,6 @@ import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
 export default function Loading({mode, demo}: {mode: number, demo: boolean}) {
-    console.log(mode)
     const theme = useTheme();
 
     const options: loadTypes = getLoadVisible();
@@ -60,7 +59,7 @@ export default function Loading({mode, demo}: {mode: number, demo: boolean}) {
                 <div className="sqr"></div>
             </Grow>}
             {mode===0&&<Grow in={(options.growState||demo)}>
-                <span className={theme.palette.mode==='dark'?"loaderWh":"loaderBl"}></span>
+                <span className={theme.palette.mode==='dark'?"loaderBl":"loaderWh"}></span>
             </Grow>}
         </Box>
     );

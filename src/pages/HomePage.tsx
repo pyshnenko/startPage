@@ -172,10 +172,10 @@ export default function Menu({setUser, user, api, darkMode, width, setLogin, log
                                                 let resObj: any = { ...edit };
                                                 resObj[dat.index] = target.value;
                                                 setEdit(resObj)}} variant="standard" /> : 
-                                            (dat.index!=='telegram'||(dat.index==='telegram'&&(user[dat.index]!==''||(user.telegramID))))&&<Typography sx={styleText[width<500?'textLow':'text']} variant={width<500?"h6":"h5"} gutterBottom>
-                                                {dat.index==='telegram' ? (user.telegram==='' ? user.telegramID : user.telegram) : user[dat.index]}
+                                            (dat.index!=='telegram'||(dat.index==='telegram'&&(user[dat.index]!==''||(user.telegramID!==0))))&&<Typography sx={styleText[width<500?'textLow':'text']} variant={width<500?"h6":"h5"} gutterBottom>
+                                                {dat.index==='telegram' ? (user.telegram==='' ? (user.telegramID===0?'':user.telegramID) : user.telegram) : user[dat.index]}
                                             </Typography>}
-                                        {!edit.activate&&((dat.index==='email'&&(user.emailValid))||(dat.index==='telegram'&&(user[dat.index]!==''||(user.telegramID))&&(user.telegramValid)))&&
+                                        {!edit.activate&&((dat.index==='email'&&(user.emailValid))||(dat.index==='telegram'&&(user[dat.index]!==''||(user.telegramID!==0))&&(user.telegramValid)))&&
                                             <CheckIcon sx={{ color: green[500]}} />}
                                         {!edit.activate&&((dat.index==='email'&&(!user.emailValid))||(dat.index==='telegram'&&(user[dat.index]!==''||(user.telegramID!==0))&&(!user.telegramValid)))&&
                                             <IconButton component="label" onClick={(event)=>handleValidClick(event, dat.index)}>
