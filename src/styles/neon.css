@@ -7,17 +7,18 @@
 
 #neonDiv {
     display: flex;
+    position: fixed;
     flex-direction: row;
     align-items: center;
     z-index: 5;
     opacity: 0;
     animation: startH 3s ease-in-out forwards ;
+    cursor: default;
 }
 
 @media screen and (min-aspect-ratio: 86/90) {
 
     #neonDiv {
-        position: fixed;
         top: 50px;
         left: 100vw;
         margin-left: -250px;
@@ -28,6 +29,7 @@
 @media screen and (max-aspect-ratio: 85/90) {
 
     #neonDiv {
+        bottom: -50px;
         margin-left: 50px;
     }
 

@@ -100,7 +100,7 @@ export default function About({darkMode}: InpData) {
     };
     
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', position: 'relative', zIndex: 10 }}>
             {width>500 ? data.map((item, index)=>
                 <Grow in={grow} timeout={index*1000} key={item.title}>
                         <Card sx={{ maxWidth: 330, margin: 2, boxShadow: 3, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>

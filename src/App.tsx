@@ -9,6 +9,7 @@ import HomePage from './pages/HomePage';
 import About from './pages/About';
 import Settings from './pages/Settings';
 import OldPage from './pages/OldPage';
+import Register from './pages/Register';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import sApi from './mech/api';
@@ -116,12 +117,16 @@ function App() {
   }, []);
 
   useEffect(()=>{
+    console.log(state);
     if (login) {
       if (state==='') stateSettings('home');
       else {
         let sBuf: {login: boolean, state: string} = {login: login, state: state};
         localStorage.setItem('listGState', JSON.stringify(sBuf))
       }
+    }
+    else {
+      if (state==='home') stateSettings('');
     }
   }, [state]);
 
@@ -147,20 +152,22 @@ function App() {
         {loadState&&<Loading mode={loadingMode} demo={false} />}
         {visual&&<Box id="black"></Box>}
         <div className="App">
+          {neonOn&&
+            <div id="neonDiv">
+              <h2 id={darkMode?"neonH2F":"neonH2FW"}>Д</h2>
+              <h2 id={darkMode?"neonH2":"neonH2W"}>ызыг</h2>
+              <h2 id={darkMode?"neonH2l":"neonH2lW"}>н</h2>
+            </div>}
           {true&&<Menu width={width} darkTheme={darkTheme} login={login} setLogin={setLogin} user={user} />}
           <ColorModeButton width={width} darkMode={darkMode} setDarkMode={setDarkMode} visual={visual} setVisual={setVisual} />
           {state===''&&<SingInPage setUser={setUser} user={user} api={api} setLogin={setLogin} />}
           {state==='home'&&login&&<HomePage user={user} setUser={setUser} api={api} darkMode={darkMode} width={width} login={login} setLogin={setLogin} />}
           {state==='old'&&<OldPage darkMode={darkMode} />}
+          {state==='register'&&<Register api={api} />}
           {state==='about'&&<About darkMode={darkMode} width={width} />}
           {state==='settings'&&<Settings loadingMode={loadingMode} setLoadingMode={setLoadingMode} darkMode={darkMode} setDarkMode={setDarkMode} neonOn={neonOn} setNeonOn={setNeonOn} />}
+          
         </div>
-        {neonOn&&
-          <div id="neonDiv">
-            <h2 id={darkMode?"neonH2F":"neonH2FW"}>Д</h2>
-            <h2 id={darkMode?"neonH2":"neonH2W"}>ызыг</h2>
-            <h2 id={darkMode?"neonH2l":"neonH2lW"}>н</h2>
-          </div>}
       </Box>
     </ThemeProvider>
   );
