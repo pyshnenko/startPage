@@ -160,13 +160,14 @@ function App() {
             </div>}
           {true&&<Menu width={width} darkTheme={darkTheme} login={login} setLogin={setLogin} user={user} />}
           <ColorModeButton width={width} darkMode={darkMode} setDarkMode={setDarkMode} visual={visual} setVisual={setVisual} />
-          {state===''&&<SingInPage setUser={setUser} user={user} api={api} setLogin={setLogin} />}
-          {state==='home'&&login&&<HomePage user={user} setUser={setUser} api={api} darkMode={darkMode} width={width} login={login} setLogin={setLogin} />}
-          {state==='old'&&<OldPage darkMode={darkMode} />}
-          {state==='register'&&<Register api={api} />}
-          {state==='about'&&<About darkMode={darkMode} width={width} />}
-          {state==='settings'&&<Settings loadingMode={loadingMode} setLoadingMode={setLoadingMode} darkMode={darkMode} setDarkMode={setDarkMode} neonOn={neonOn} setNeonOn={setNeonOn} />}
-          
+          <div style={{position: 'relative'}}>
+            {state===''&&<SingInPage setUser={setUser} user={user} api={api} setLogin={setLogin} />}
+            {state==='home'&&login&&<HomePage user={user} setUser={setUser} api={api} darkMode={darkMode} width={width} login={login} setLogin={setLogin} />}
+            {state==='old'&&<OldPage darkMode={darkMode} />}
+            {state==='register'&&<Register api={api} />}
+            {state==='about'&&<About darkMode={darkMode} width={width} />}
+            {state==='settings'&&<Settings loadingMode={loadingMode} setLoadingMode={setLoadingMode} darkMode={darkMode} setDarkMode={setDarkMode} neonOn={neonOn} setNeonOn={setNeonOn} />}
+          </div>
         </div>
       </Box>
     </ThemeProvider>
