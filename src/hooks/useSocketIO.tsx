@@ -1,0 +1,89 @@
+import { io } from 'socket.io-client';
+
+
+import copy from 'fast-copy';
+
+let socket: any;
+const URL ='https://io.spamigor.site';    
+let connectS = false;
+let open: boolean, chatMess: any, setChatMess: (val: any)=>void, user: any, login: boolean, setConnectIO: (val: boolean)=>void;
+
+interface inpTypes {
+    open: boolean, 
+    chatMess: any, 
+    setChatMess: (val: any)=>void, 
+    user: any, 
+    login: boolean, 
+    setConnectIO: (val: boolean)=>void
+}
+
+export function useSocketIO(props: inpTypes) {
+
+    if (props.hasOwnProperty('open')) open = props.open;
+    if (props.hasOwnProperty('chatMess')) chatMess = props.chatMess;
+    if (props.hasOwnProperty('setChatMess')) setChatMess = props.setChatMess;
+    if (props.hasOwnProperty('user')) user = props.user;
+    if (props.hasOwnProperty('login')) login = props.login;
+    if (props.hasOwnProperty('setConnectIO')) setConnectIO = props.setConnectIO;
+
+    if (!connectS) {
+        console.log('hello');
+        socket = io(URL, {
+            autoConnect: true
+        });
+        connectS = true;
+
+        socket.on('connect', onConnect);
+        socket.on('disconnect', onDisconnect);
+        socket.on('updChat', onUpdChat);
+        socket.on('newMess', onNewMess);
+        socket.on('updUserData', onUpdUserData);
+        setConnectIO(true);
+    }    
+
+    function onConnect() {
+        console.log('connect');
+        connectS = true;
+        setConnectIO(true);
+        console.log(user.login);
+        socket.emit('chatStart', user.login);
+    }
+
+    function onDisconnect() {
+        console.log('disconnect')
+        setConnectIO(false);
+        connectS = false;
+    }
+
+    function onUpdChat(value: string) {
+        console.log(value);
+        if (value!==null) 
+        {
+            let buf: any = JSON.parse(value);
+            setChatMess(buf);
+        }
+    }
+
+    function sendIO (mess: any) {
+        socket.emit('newMess', JSON.stringify(mess));
+    }
+
+    function onNewMess(value: string) {
+        console.log(value);
+        let buf = copy(chatMess);
+        let inpBuf = JSON.parse(value);
+        buf.push(inpBuf);
+        chatMess = buf;
+        setChatMess(buf);
+    }
+
+    function onUpdUserData() {
+        socket.emit('updUserData', user.login);
+    }
+
+    return {
+        socket,
+        sendIO,
+        connect: connectS
+    }
+}

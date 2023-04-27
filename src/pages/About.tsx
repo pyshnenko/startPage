@@ -8,11 +8,13 @@ import ChatPlace from '../helpers/chatPlace';
 
 interface InpData {
     darkMode: boolean,
-    width: number
+    width: number,
+    user: any,
+    login: boolean
 };
   
 
-export default function About({darkMode, width}: InpData) {
+export default function About({darkMode, width, user, login}: InpData) {
     let grow = getGrowIn();
     return (
         <div>
@@ -44,7 +46,7 @@ export default function About({darkMode, width}: InpData) {
                     </Paper>
                 </Grow>
             </div>
-            <ChatPlace width={width} darkMode={darkMode} />
+            <ChatPlace width={width} darkMode={darkMode} user={user} login={login} />
         </div>
     );
 }

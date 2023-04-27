@@ -9,13 +9,13 @@ import SendIcon from '@mui/icons-material/Send';
 import InputAdornment from '@mui/material/InputAdornment';
 import Typography from '@mui/material/Typography';
 import '../styles/chat.css';
+import { useSocketIO } from "../hooks/useSocketIO";
 
 interface InpData {
-    setDarkMode: (value: boolean) => void,
     darkMode: boolean,
     width: number,
-    visual: boolean,
-    setVisual: (value: boolean) => void
+    user: any,
+    login: boolean
 };
 
 const darkStyle = (dark: boolean) => {
@@ -40,45 +40,70 @@ const darkStyle = (dark: boolean) => {
     }
 }
 
-export default function ChatPlace(props: any) {
+export default function ChatPlace(props: InpData) {
+
+    let { width, darkMode, user, login } = props;
 
     const [ open, setOpen ] = useState<boolean>(false);
-    const [ text, setText ] = useState<string>('g');
-    const [ chatMess, setChatMess ] = useState<any>([{login: 'spamigor', time: Number(new Date()), text: 'Hello World'},{login: 'spamigor2', time: Number(new Date()), text: 'Hello'}]);
+    const [ connectIO, setConnectIO ] = useState<boolean>(false);
+    const [ text, setText ] = useState<string>('');
+    const [ chatMess, setChatMess ] = useState<any>([{login: 'spamigor', time: Number(new Date()), text: ['Hello World', '', 'word']},{login: 'spamigor2', time: Number(new Date()), text: ['Hello']}]);
+    const shift = useRef<boolean>(false);
 
-    let { width, darkMode } = props;
+    const { sendIO, connect }: {sendIO: any, connect: boolean} = useSocketIO({ open, chatMess, setChatMess, user, login, setConnectIO });
 
-    
+    const textRef = useRef<string>(text);
+    const chatMessArr = useRef<any>(chatMess);
+        
+    const onKeypress = (e: any) => {
+        if ((e.code==='ShiftLeft')||(e.code==='ShiftRight')) {
+            shift.current = true;
+        }
+        if (e.code==='Enter') {
+            console.log(textRef.current);
+            if (!shift.current) sendMess(textRef.current, chatMessArr.current);
+        }
+    };    
+        
+    const onKeyUp = (e: any) => {
+        if ((e.code==='ShiftLeft')||(e.code==='ShiftRight')) {
+            shift.current = false;
+        }
+    };   
 
-    //let scrollPos: HTMLElement;
+    let scrollPos = useRef<HTMLElement>();
 
     useEffect(() => {
-        
-        const onKeypress = (e: any) => {
-            if (e.code==='Enter') {
-                console.log('Enter')
-                sendMess();
-            }
-        };
         document.addEventListener('keydown', onKeypress);
+        document.addEventListener('keyup', onKeyUp);
 
-        //scrollPos = document.getElementById('chatWindow');
-        //console.log(typeof(scrollPos));
+        scrollPos.current = document.getElementById('chatWindow') as HTMLElement;
       
         return () => {
             document.removeEventListener('keydown', onKeypress);
+            document.removeEventListener('keyup', onKeyUp);
         };
     }, []);
 
-    const sendMess = () => {
-        console.log(chatMess);
-        if (true)   //open&&(text!=='')) 
+    useEffect(()=>{
+        textRef.current = text;
+    }, [text])
+
+    useEffect(()=>{
+        chatMessArr.current = chatMess;
+    }, [chatMess])
+
+    const sendMess = (text:string, iBuf: any) => {
+        if (true)
         {
-            let buf = copy(chatMess);
-            buf.push({login: 'login', time: Number(new Date()), text});
+            let buf = copy(iBuf);
+            let str = (text.trim()).split('\n');
+            let mess = {login: user.login, time: Number(new Date()), text: str};
+            sendIO(mess);
+            buf.push(mess);
             setChatMess(buf);
             setText('');
-            //scrollPos.scrollTo(0,100);
+            if (scrollPos.current!==undefined) scrollPos.current.scrollBy(0,100);
         }
     }
 
@@ -107,12 +132,13 @@ export default function ChatPlace(props: any) {
                                 width: '10px',
                                 height: '10px',
                                 borderRadius: '5px',
-                                backgroundColor: 'red',
+                                backgroundColor: connectIO?'chartreuse':'red',
+                                boxShadow: `0 0 5px ${connectIO?'chartreuse':'red'}`,
                                 marginLeft: '25px',
                                 marginRight: '20%'
                             }} 
                         />
-                        <Typography color="primary">Чат с Толяном</Typography>
+                        <Typography sx={{ color: 'black' }}>Чат с Толяном</Typography>
 
                     </Box></Grow>
                 </Box>
@@ -128,35 +154,60 @@ export default function ChatPlace(props: any) {
                     }}
                     id="chatWindow"
                 >
-                    {chatMess.map((mess:any, index:number)=>{  
+                    {(chatMess!==undefined)&&(chatMess.length!==0)&&chatMess.map((mess:any, index:number)=>{  
                         return (
-                            <Box sx={{ display: 'flex', justifyContent: mess.login==='spamigor'?'flex-start':'flex-end' }} key={index}>
-                                <Typography>{mess.text}</Typography>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: mess.login==='spamigor'?'flex-start':'flex-end' }} key={index}>
+                                <Box 
+                                    sx={{ 
+                                        textAlign: mess.login==='spamigor'?'left':'right',
+                                        backgroundColor: mess.login==='spamigor'?'antiquewhite':'white',
+                                        padding: '10px',
+                                        margin: '10px',
+                                        border: `1px solid ${mess.login==='spamigor'?'antiquewhite':'white'}`,
+                                        boxShadow: `0 0 5px ${mess.login==='spamigor'?'antiquewhite':'white'}`,
+                                        borderRadius: mess.login==='spamigor'?'10px 10px 10px 0':'10px 10px 0 10px',
+                                        maxWidth: '75%',
+                                        wordBreak: 'break-all'
+                                    }}
+                                >
+                                    {mess.text.map((item: string, index: number)=>{
+                                        if (item==='') return (<br key={index}/>);
+                                        else return (
+                                            <Typography key={index}>{item}</Typography>
+                                        )
+                                    })}
+                                </Box>
                             </Box>
                         )
                     }, null)}
                 </Box></Grow>
-                <Grow in={open} timeout={open?2000:0} id={'chatTextField'}><TextField 
-                    variant="outlined"
-                    sx={{
-                        backgroundColor: darkMode?'#202525':'#d4d5ce',
-                        margin: '2px',
-                        borderRadius: '0 0 10px 10px',
-                        borderTop: `1px solid ${darkMode?'rebeccapurple':'#43998c'}`,
-                        width: '99%'
-                    }}
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment position="end" onClick={()=>sendMess()} sx={{ cursor: 'default' }}>
-                                <SendIcon />
-                            </InputAdornment>
-                        ),
-                    }}
-                    multiline
-                    maxRows={4}
-                    value={text}
-                    onChange={(evt: React.ChangeEvent<HTMLInputElement>)=>setText(evt.target.value)}
-                /></Grow>
+                <Grow in={open} timeout={open?2000:0} id={'chatTextField'}>
+                    <TextField 
+                        variant="outlined"
+                        sx={{
+                            backgroundColor: darkMode?'#202525':'#d4d5ce',
+                            margin: '2px',
+                            borderRadius: '0 0 10px 10px',
+                            borderTop: `1px solid ${darkMode?'rebeccapurple':'#43998c'}`,
+                            width: '99%'
+                        }}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end" onClick={()=>sendMess(text, chatMess)} sx={{ cursor: 'default' }}>
+                                    <SendIcon />
+                                </InputAdornment>
+                            ),
+                        }}
+                        multiline
+                        maxRows={4}
+                        value={text}
+                        onChange={(evt: React.ChangeEvent<HTMLInputElement>)=>{
+                            if (evt.target.value!=='\n') {
+                                setText(evt.target.value);
+                            }
+                        }}
+                    />
+                </Grow>
             </Box>
         </Grow>
     );
