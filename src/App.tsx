@@ -165,7 +165,7 @@ function App() {
             {state==='home'&&login&&<HomePage user={user} setUser={setUser} api={api} darkMode={darkMode} width={width} login={login} setLogin={setLogin} />}
             {state==='old'&&<OldPage darkMode={darkMode} />}
             {state==='register'&&<Register api={api} />}
-            {state==='about'&&<About darkMode={darkMode} width={width} user={user} login={login} />}
+            {state==='about'&&<About darkMode={darkMode} width={width} user={user} login={login} api={api} />}
             {state==='settings'&&<Settings loadingMode={loadingMode} setLoadingMode={setLoadingMode} darkMode={darkMode} setDarkMode={setDarkMode} neonOn={neonOn} setNeonOn={setNeonOn} />}
           </div>
         </div>

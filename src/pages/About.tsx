@@ -10,11 +10,12 @@ interface InpData {
     darkMode: boolean,
     width: number,
     user: any,
-    login: boolean
+    login: boolean,
+    api: any
 };
   
 
-export default function About({darkMode, width, user, login}: InpData) {
+export default function About({darkMode, width, user, login, api}: InpData) {
     let grow = getGrowIn();
     return (
         <div>
@@ -46,7 +47,7 @@ export default function About({darkMode, width, user, login}: InpData) {
                     </Paper>
                 </Grow>
             </div>
-            <ChatPlace width={width} darkMode={darkMode} user={user} login={login} />
+            {login&&<ChatPlace width={width} darkMode={darkMode} user={user} login={login} api={api} />}
         </div>
     );
 }

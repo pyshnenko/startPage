@@ -7,6 +7,7 @@ let socket: any;
 const URL ='https://io.spamigor.site';    
 let connectS = false;
 let open: boolean, chatMess: any, setChatMess: (val: any)=>void, user: any, login: boolean, setConnectIO: (val: boolean)=>void;
+let lastMessDat: {time: number, login: string} = {time: 0, login: ''};
 
 interface inpTypes {
     open: boolean, 
@@ -52,7 +53,7 @@ export function useSocketIO(props: inpTypes) {
     function onDisconnect() {
         console.log('disconnect')
         setConnectIO(false);
-        connectS = false;
+        //connectS = false;
     }
 
     function onUpdChat(value: string) {
@@ -65,16 +66,25 @@ export function useSocketIO(props: inpTypes) {
     }
 
     function sendIO (mess: any) {
+        console.log(mess);
+        lastMessDat = {time: mess.time, login: mess.login};
         socket.emit('newMess', JSON.stringify(mess));
     }
 
     function onNewMess(value: string) {
         console.log(value);
-        let buf = copy(chatMess);
         let inpBuf = JSON.parse(value);
-        buf.push(inpBuf);
-        chatMess = buf;
-        setChatMess(buf);
+        //if ((inpBuf.time!==lastMessDat.time)||(inpBuf.login!==lastMessDat.login)) {
+            let buf = copy(chatMess);
+            buf.push(inpBuf);
+            chatMess = buf;
+            setChatMess(buf);
+        //}
+    }
+
+    function onUserSelect(login: string) {
+        console.log(login);
+        socket.emit('chatStart', login);
     }
 
     function onUpdUserData() {
@@ -84,6 +94,7 @@ export function useSocketIO(props: inpTypes) {
     return {
         socket,
         sendIO,
-        connect: connectS
+        connect: connectS,
+        userSelect: onUserSelect
     }
 }

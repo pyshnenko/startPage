@@ -10,12 +10,17 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Typography from '@mui/material/Typography';
 import '../styles/chat.css';
 import { useSocketIO } from "../hooks/useSocketIO";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 interface InpData {
     darkMode: boolean,
     width: number,
     user: any,
-    login: boolean
+    login: boolean,
+    api: any
 };
 
 const darkStyle = (dark: boolean) => {
@@ -42,18 +47,22 @@ const darkStyle = (dark: boolean) => {
 
 export default function ChatPlace(props: InpData) {
 
-    let { width, darkMode, user, login } = props;
+    let { width, darkMode, user, login, api } = props;
 
     const [ open, setOpen ] = useState<boolean>(false);
     const [ connectIO, setConnectIO ] = useState<boolean>(false);
     const [ text, setText ] = useState<string>('');
+    const [ chatUser, setChatUser ] = useState<string>(user.login);
+    const [ usList, setUsList ] = useState([{login: 'spamigor', role: 'admin', name:('Толян')}]);
     const [ chatMess, setChatMess ] = useState<any>([{login: 'spamigor', time: Number(new Date()), text: ['Hello World', '', 'word']},{login: 'spamigor2', time: Number(new Date()), text: ['Hello']}]);
     const shift = useRef<boolean>(false);
 
-    const { sendIO, connect }: {sendIO: any, connect: boolean} = useSocketIO({ open, chatMess, setChatMess, user, login, setConnectIO });
+    const { sendIO, connect, userSelect }: {sendIO: any, connect: boolean, userSelect: (val: string)=>void} = useSocketIO({ open, chatMess, setChatMess, user, login, setConnectIO });
 
     const textRef = useRef<string>(text);
+    const userRef = useRef<string>(chatUser);
     const chatMessArr = useRef<any>(chatMess);
+    const trigger = useRef<Boolean>(true);
         
     const onKeypress = (e: any) => {
         if ((e.code==='ShiftLeft')||(e.code==='ShiftRight')) {
@@ -61,7 +70,7 @@ export default function ChatPlace(props: InpData) {
         }
         if (e.code==='Enter') {
             console.log(textRef.current);
-            if (!shift.current) sendMess(textRef.current, chatMessArr.current);
+            if (!shift.current) sendMess(textRef.current, chatMessArr.current, userRef.current);
         }
     };    
         
@@ -74,6 +83,13 @@ export default function ChatPlace(props: InpData) {
     let scrollPos = useRef<HTMLElement>();
 
     useEffect(() => {
+
+        if (trigger.current) {
+            trigger.current = false;
+            let prom: any = api.sendPost({}, 'usersList', `Bearer ${user.token}`);
+            prom.then((res: any)=>setUsList(res.data.list))
+        }
+
         document.addEventListener('keydown', onKeypress);
         document.addEventListener('keyup', onKeyUp);
 
@@ -91,21 +107,28 @@ export default function ChatPlace(props: InpData) {
 
     useEffect(()=>{
         chatMessArr.current = chatMess;
+        if (scrollPos.current!==undefined) scrollPos.current.scrollTo(0,scrollPos.current.scrollHeight);
     }, [chatMess])
 
-    const sendMess = (text:string, iBuf: any) => {
+    useEffect(()=>{
+        userRef.current = chatUser;
+    }, [chatUser])
+
+    const sendMess = (text:string, iBuf: any, user: string) => {
         if (true)
         {
-            let buf = copy(iBuf);
             let str = (text.trim()).split('\n');
-            let mess = {login: user.login, time: Number(new Date()), text: str};
+            let mess = {login: user, time: Number(new Date()), text: str};
             sendIO(mess);
-            buf.push(mess);
-            setChatMess(buf);
             setText('');
-            if (scrollPos.current!==undefined) scrollPos.current.scrollBy(0,100);
         }
     }
+
+    const handleChange = (event: SelectChangeEvent) => {
+        setChatUser(event.target.value);
+        setOpen(true);
+        userSelect(event.target.value)
+    };
 
     return (
         <Grow in={true}>
@@ -138,8 +161,23 @@ export default function ChatPlace(props: InpData) {
                                 marginRight: '20%'
                             }} 
                         />
-                        <Typography sx={{ color: 'black' }}>Чат с Толяном</Typography>
-
+                        {user.role!=='admin'?
+                            <Typography sx={{ color: darkMode?'black':'white' }}>Чат с Толяном</Typography> :
+                            <FormControl sx={{ minWidth: 120 }} size="small">
+                                <Select
+                                    labelId="demo-select-small-label"
+                                    id="demo-select-small"
+                                    value={chatUser}
+                                    onChange={handleChange}
+                                >
+                                    {usList.map((item: any)=>{
+                                        return (
+                                            <MenuItem value={item.login} key={item.login}>{item.login}</MenuItem>
+                                        )
+                                    })}
+                                </Select>
+                            </FormControl>
+                        }
                     </Box></Grow>
                 </Box>
                 <Grow in={open} timeout={open?2000:0}><Box 
@@ -193,7 +231,7 @@ export default function ChatPlace(props: InpData) {
                         }}
                         InputProps={{
                             endAdornment: (
-                                <InputAdornment position="end" onClick={()=>sendMess(text, chatMess)} sx={{ cursor: 'default' }}>
+                                <InputAdornment position="end" onClick={()=>sendMess(text, chatMess, chatUser)} sx={{ cursor: 'default' }}>
                                     <SendIcon />
                                 </InputAdornment>
                             ),
