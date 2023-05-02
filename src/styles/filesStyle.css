@@ -1,0 +1,11 @@
+#filesButtonW > button {
+    height: 40px;
+    width: 40px;
+    background-color: azure;
+}
+
+#filesButtonB > button {
+    height: 40px;
+    width: 40px;
+    background-color: darkslateblue;
+}

@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import copy from 'fast-copy';
 import Box from '@mui/material/Box';
-import EmojiObjectsIcon from '@mui/icons-material/EmojiObjects';
-import IconButton from '@mui/material/IconButton';
 import Grow from '@mui/material/Grow';
 import TextField from '@mui/material/TextField';
 import SendIcon from '@mui/icons-material/Send';
@@ -10,14 +7,13 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Typography from '@mui/material/Typography';
 import '../styles/chat.css';
 import { useSocketIO } from "../hooks/useSocketIO";
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import FileButton from './fileButton'
 
 interface InpData {
     darkMode: boolean,
-    width: number,
     user: any,
     login: boolean,
     api: any
@@ -47,7 +43,7 @@ const darkStyle = (dark: boolean) => {
 
 export default function ChatPlace(props: InpData) {
 
-    let { width, darkMode, user, login, api } = props;
+    let { darkMode, user, login, api } = props;
 
     const [ open, setOpen ] = useState<boolean>(false);
     const [ connectIO, setConnectIO ] = useState<boolean>(false);
@@ -57,7 +53,7 @@ export default function ChatPlace(props: InpData) {
     const [ chatMess, setChatMess ] = useState<any>([{login: 'spamigor', time: Number(new Date()), text: ['Hello World', '', 'word']},{login: 'spamigor2', time: Number(new Date()), text: ['Hello']}]);
     const shift = useRef<boolean>(false);
 
-    const { sendIO, connect, userSelect }: {sendIO: any, connect: boolean, userSelect: (val: string)=>void} = useSocketIO({ open, chatMess, setChatMess, user, login, setConnectIO });
+    const { sendIO, userSelect }: {sendIO: any, userSelect: (val: string)=>void} = useSocketIO({ open, chatMess, setChatMess, user, login, setConnectIO });
 
     const textRef = useRef<string>(text);
     const userRef = useRef<string>(chatUser);
@@ -78,7 +74,7 @@ export default function ChatPlace(props: InpData) {
         if ((e.code==='ShiftLeft')||(e.code==='ShiftRight')) {
             shift.current = false;
         }
-    };   
+    }; 
 
     let scrollPos = useRef<HTMLElement>();
 
@@ -169,6 +165,7 @@ export default function ChatPlace(props: InpData) {
                                     id="demo-select-small"
                                     value={chatUser}
                                     onChange={handleChange}
+                                    sx={{ color: 'white' }}
                                 >
                                     {usList.map((item: any)=>{
                                         return (
@@ -210,6 +207,15 @@ export default function ChatPlace(props: InpData) {
                                 >
                                     {mess.text.map((item: string, index: number)=>{
                                         if (item==='') return (<br key={index}/>);
+                                        else if (item.slice(0,4)==='img:') return (
+                                            <img src={item.slice(5)} key={index} id='chatFile'/>
+                                        )
+                                        else if (item.slice(0,4)==='doc:') { 
+                                            let fileName = item.slice(item.lastIndexOf('img/')+4);
+                                            fileName = fileName.slice(fileName.indexOf('-')+1);
+                                            return (
+                                                <a key={index} href={item.slice(5)} id='chatDocs' target='_blank' download><p>Скачать {fileName.slice(0, 30)+(fileName.length>30?'...':'')}</p></a>
+                                        )}
                                         else return (
                                             <Typography key={index}>{item}</Typography>
                                         )
@@ -231,10 +237,15 @@ export default function ChatPlace(props: InpData) {
                         }}
                         InputProps={{
                             endAdornment: (
-                                <InputAdornment position="end" onClick={()=>sendMess(text, chatMess, chatUser)} sx={{ cursor: 'default' }}>
+                                <InputAdornment position="end" onClick={()=>sendMess(text, chatMess, chatUser)} sx={{ cursor: 'pointer' }}>
                                     <SendIcon />
                                 </InputAdornment>
                             ),
+                            startAdornment: (
+                                <InputAdornment position="start" sx={{ cursor: 'pointer' }}>
+                                    <FileButton recipient={chatUser} darkMode={darkMode} sendMess={sendMess}  />
+                                </InputAdornment>
+                            )
                         }}
                         multiline
                         maxRows={4}

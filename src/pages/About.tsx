@@ -47,7 +47,7 @@ export default function About({darkMode, width, user, login, api}: InpData) {
                     </Paper>
                 </Grow>
             </div>
-            {login&&<ChatPlace width={width} darkMode={darkMode} user={user} login={login} api={api} />}
+            {login&&<ChatPlace darkMode={darkMode} user={user} login={login} api={api} />}
         </div>
     );
 }

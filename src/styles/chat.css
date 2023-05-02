@@ -71,3 +71,21 @@
         border-radius: 50px;
     }
 }
+
+#chatFile {
+    width: 100%;
+}
+
+#chatDocs {
+    background-color: azure;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid burlywood;
+    display: table-cell;
+    width: 100%;
+}
+
+#chatDocs > p {
+    margin: 0;
+    padding: 0;
+}
