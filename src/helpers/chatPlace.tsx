@@ -10,7 +10,8 @@ import { useSocketIO } from "../hooks/useSocketIO";
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import FileButton from './fileButton'
+import FileButton from './fileButton';
+import ChatIcon from '@mui/icons-material/Chat';
 
 interface InpData {
     darkMode: boolean,
@@ -131,10 +132,11 @@ export default function ChatPlace(props: InpData) {
             <Box 
                 sx={darkStyle(darkMode)}
                 id={open?'chatOpen':'chatClosed'}
-                onClick={()=>{if (!open) setOpen(true)}}
+                onClick={()=>{if (!open) {setOpen(true); if (scrollPos.current!==undefined) scrollPos.current.scrollTo(0,scrollPos.current.scrollHeight);}}}
             >
                 
                 <Box sx={{ height: '50px', width: '100%'}} onClick={()=>setOpen(false)} >
+                    {!open&&<Grow in={!open}><ChatIcon sx={{ color: 'aliceblue', position: 'relative', width: '35px', height: '35px', top: '9px' }} /></Grow>}
                     <Grow in={open} timeout={open?2000:0}><Box 
                         sx={{ 
                             height: '100%',

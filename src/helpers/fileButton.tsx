@@ -1,12 +1,12 @@
-import * as React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Box from '@mui/material/Box';
-import SpeedDial, { SpeedDialProps } from '@mui/material/SpeedDial';
-import SpeedDialIcon from '@mui/material/SpeedDialIcon';
+import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
 import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
 import ImageIcon from '@mui/icons-material/Image';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import '../styles/filesStyle.css';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const actions = [
     { icon: <ImageIcon />, name: 'Изображение' },
@@ -24,14 +24,51 @@ interface inpDat {
 
 export default function FileButton({recipient, darkMode, sendMess}:inpDat) {
 
+    const [ sendStatus, setSendStatus ] = useState<Boolean>(false);
+    const [ sendCount, setSendCount ] = useState<number>(0);
+    const [ sendTotal, setSendTotal ] = useState<number>(0);
+
+    const trig = useRef<Boolean>(true);
+
+    const loadController = new AbortController();  
+        
+    const onKeyUp = (e: KeyboardEvent) => {
+        if (e.code === 'Escape') 
+            if (sendStatus) {
+                loadController.abort();
+                setSendStatus(false)
+            }
+    }; 
+
+    const onAbort = () => {
+        console.log('abort'); 
+    }
+
+    useEffect(()=>{
+        if (trig.current) {
+            //trig.current = false;
+            console.log('effect')
+            loadController.signal.addEventListener('abort', onAbort);
+
+            document.addEventListener('keyup', onKeyUp);
+            
+            return () => {
+                loadController.signal.removeEventListener('abort', onAbort);
+                document.removeEventListener('keyup', onKeyUp);
+            };
+        }
+    }, [])
+
     const attFile = async (mode: string) => {
         console.log(mode);
         let input = document.createElement('input');
         input.type = 'file';
         input.accept = mode===actions[0].name?'image/*':'application/*';
         input.multiple = true;
-        input.onchange = async (e: any) => { 
+        input.onchange = async (e: any) => {
+            setSendStatus(true);
             let files = e.target.files;
+            setSendTotal(files.length);
             for (let i = 0; i<files.length; i++) {
                 let data = new FormData();
                 data.append('file', files[i]);
@@ -44,12 +81,17 @@ export default function FileButton({recipient, darkMode, sendMess}:inpDat) {
                         ftype: mode===actions[0].name?'image':'document'
                     },
                     body: data,
+                    signal: loadController.signal
                 }                
                 const response = await fetch('https://spamigor.site/apiChat', options);
                 const res = await response.json();
                 console.log(res);
-                sendMess(`${mode===actions[0].name?'img:':'doc:'}|https://spamigor.site/${res.addr}`, null, recipient);
+                sendMess(`${mode===actions[0].name?'img:':'doc:'}|https://spamigor.site/${encodeURI(res.addr)}`, null, recipient);
+                setSendCount(i+1);
             }
+            setSendCount(0);
+            setSendStatus(false);
+            setSendTotal(0);
         }
         
         input.click();
@@ -58,7 +100,8 @@ export default function FileButton({recipient, darkMode, sendMess}:inpDat) {
 
     return (
         <Box sx={{ transform: 'translateZ(0px)', flexGrow: 1 }}>
-            <Box sx={{ position: 'relative', height: 320, top: '12px', left: '-10px' }}>
+            <Box sx={{ position: 'relative', height: sendStatus?62:320, top: '12px', left: '-10px' }}>
+                {sendStatus?<CircularProgress variant={sendCount!==0?"determinate":'indeterminate'} value={sendCount/(sendTotal||1)} />:
                 <SpeedDial
                     ariaLabel="AttachFileIcon"
                     icon={<AttachFileIcon sx={{ color: darkMode?'white':'black' }} />}
@@ -72,7 +115,7 @@ export default function FileButton({recipient, darkMode, sendMess}:inpDat) {
                             onClick={()=>attFile(action.name)}                            
                         />
                     ))}
-                </SpeedDial>
+                </SpeedDial>}
             </Box>
         </Box>
     );
