@@ -71,7 +71,7 @@ export default function About({darkMode}: InpData) {
             href: "https://spamigor.site/fiches/img/8080.jpg",
             title: "Дата-центр",
             text: "Первые попытди сделать собственный DashBoard. Все мои ранние проекты по WebSocket передают сюда данные. Можно увидеть какой из сайтов лежит, увидеть действия пользователей а также управлять сервером дворецкого",
-            url: 'https://spamigor.site:8080',
+            url: 'https://control.spamigor.site',
             git: 'https://github.com/pyshnenko/wsBeta'
         },
         {

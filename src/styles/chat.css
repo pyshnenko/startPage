@@ -12,6 +12,24 @@
     animation: close 1s forwards ;
 }
 
+@keyframes tickW {
+    0% {
+        box-shadow: 0 0 10px 0px #43998c;
+    }
+    100% {
+        box-shadow: 0 0 5px 10px #43998c;
+    }
+}
+
+@keyframes tickB {
+    0% {
+        box-shadow: 0 0 10px 0px rebeccapurple;
+    }
+    100% {
+        box-shadow: 0 0 5px 10px rebeccapurple;
+    }
+}
+
 @keyframes starts {
     0% {
         width: 50px;
@@ -83,6 +101,8 @@
     border: 1px solid burlywood;
     display: table-cell;
     width: 100%;
+    text-decoration: none;
+    color: cornflowerblue;
 }
 
 #chatDocs > p {

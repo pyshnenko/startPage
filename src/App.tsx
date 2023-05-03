@@ -15,6 +15,7 @@ import Box from '@mui/material/Box';
 import sApi from './mech/api';
 import SingInPage from './pages/SingInPage';
 import {setParams, stateSettings, setLoadParams, loadTypes} from './mech/mechanic';
+import ChatPlace from './helpers/chatPlace';
 const url = 'https://spamigor.site/api';
 
 const api = new sApi(url);
@@ -169,6 +170,7 @@ function App() {
             {state==='settings'&&<Settings loadingMode={loadingMode} setLoadingMode={setLoadingMode} darkMode={darkMode} setDarkMode={setDarkMode} neonOn={neonOn} setNeonOn={setNeonOn} />}
           </div>
         </div>
+        {login&&<ChatPlace darkMode={darkMode} user={user} login={login} api={api} />}
       </Box>
     </ThemeProvider>
   );

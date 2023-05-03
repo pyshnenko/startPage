@@ -38,7 +38,7 @@ const darkStyle = (dark: boolean) => {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
     }
 }
 
@@ -135,8 +135,8 @@ export default function ChatPlace(props: InpData) {
                 onClick={()=>{if (!open) {setOpen(true); if (scrollPos.current!==undefined) scrollPos.current.scrollTo(0,scrollPos.current.scrollHeight);}}}
             >
                 
-                <Box sx={{ height: '50px', width: '100%'}} onClick={()=>setOpen(false)} >
-                    {!open&&<Grow in={!open}><ChatIcon sx={{ color: 'aliceblue', position: 'relative', width: '35px', height: '35px', top: '9px' }} /></Grow>}
+                <Box sx={{ height: '50px', width: '100%', borderRadius: '50px', animation: open?'none':`3s infinite alternate ${darkMode?'tickB':'tickW'}`}} onClick={()=>setOpen(false)} >
+                    {!open&&<Grow in={!open}><ChatIcon sx={{ color: 'aliceblue', position: 'relative', width: '35px', height: '35px', top: '9px', left: '7px' }} /></Grow>}
                     <Grow in={open} timeout={open?2000:0}><Box 
                         sx={{ 
                             height: '100%',

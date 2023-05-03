@@ -4,7 +4,6 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Grow from '@mui/material/Grow';
 import {getGrowIn} from '../mech/mechanic';
-import ChatPlace from '../helpers/chatPlace';
 
 interface InpData {
     darkMode: boolean,
@@ -47,7 +46,6 @@ export default function About({darkMode, width, user, login, api}: InpData) {
                     </Paper>
                 </Grow>
             </div>
-            {login&&<ChatPlace darkMode={darkMode} user={user} login={login} api={api} />}
         </div>
     );
 }
