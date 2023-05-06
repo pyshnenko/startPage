@@ -126,13 +126,17 @@ export default function ChatPlace(props: InpData) {
         setOpen(true);
         userSelect(event.target.value)
     };
+    
+    const scrollToBottom = (scroll:HTMLElement) => {
+        scroll.scrollTo(0,scroll.scrollHeight)
+    }
 
     return (
         <Grow in={true}>
             <Box 
                 sx={darkStyle(darkMode)}
                 id={open?'chatOpen':'chatClosed'}
-                onClick={()=>{if (!open) {setOpen(true); if (scrollPos.current!==undefined) scrollPos.current.scrollTo(0,scrollPos.current.scrollHeight);}}}
+                onClick={()=>{if (!open) {setOpen(true); /*if (scrollPos.current!==undefined) setTimeout(scrollToBottom, 1000, scrollPos.current);*/}}}
             >
                 
                 <Box sx={{ height: '50px', width: '100%', borderRadius: '50px', animation: open?'none':`3s infinite alternate ${darkMode?'tickB':'tickW'}`}} onClick={()=>setOpen(false)} >
