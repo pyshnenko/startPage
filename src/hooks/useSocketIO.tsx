@@ -4,7 +4,7 @@ import { io } from 'socket.io-client';
 import copy from 'fast-copy';
 
 let socket: any;
-const URL ='https://io.spamigor.site';    
+const URL ='https://io.spamigor.ru';    
 let connectS = false;
 let open: boolean, chatMess: any, setChatMess: (val: any)=>void, user: any, login: boolean, setConnectIO: (val: boolean)=>void;
 let lastMessDat: {time: number, login: string} = {time: 0, login: ''};

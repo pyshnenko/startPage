@@ -132,8 +132,8 @@ export default function MenuS(props: InpData) {
         </Box>
       );
 
-    const listAdr = 'https://spamigor.site/list';
-    const s3Adr = 'https://spamigor.site/s3';
+    const listAdr = 'https://spamigor.ru/list';
+    const s3Adr = 'https://spamigor.ru/s3';
 
     return (
         <div>
