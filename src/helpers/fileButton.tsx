@@ -83,10 +83,10 @@ export default function FileButton({recipient, darkMode, sendMess}:inpDat) {
                     body: data,
                     signal: loadController.signal
                 }                
-                const response = await fetch('https://spamigor.site/apiChat', options);
+                const response = await fetch('https://spamigor.ru/apiChat', options);
                 const res = await response.json();
                 console.log(res);
-                sendMess(`${mode===actions[0].name?'img:':'doc:'}|https://spamigor.site/${encodeURI(res.addr)}`, null, recipient);
+                sendMess(`${mode===actions[0].name?'img:':'doc:'}|https://spamigor.ru/${encodeURI(res.addr)}`, null, recipient);
                 setSendCount(i+1);
             }
             setSendCount(0);

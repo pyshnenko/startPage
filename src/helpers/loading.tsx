@@ -52,7 +52,7 @@ export default function Loading({mode, demo}: {mode: number, demo: boolean}) {
                         alignItems: 'center',
                         justifyContent: 'center'
                     }}>
-                    <img className="images" id="image1" src="https://spamigor.site/fiches/3/huehuyz.png" />
+                    <img className="images" id="image1" src="https://spamigor.ru/fiches/3/huehuyz.png" />
                 </Box>
             </Grow>}           
             {mode===1&&<Grow in={(options.growState||demo)}>

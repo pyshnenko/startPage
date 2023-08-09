@@ -96,9 +96,9 @@ export default function Menu({setUser, user, api, darkMode, width, setLogin, log
             },
             body: data,
         }
-        const response = await fetch('https://spamigor.site/apiUpload', options);
+        const response = await fetch('https://spamigor.ru/apiUpload', options);
         const res = await response.json();        
-        let result = await api.sendPost({avatar: `https://spamigor.site/${res.addr}`}, 'updUserData', `Bearer ${user.token}`);
+        let result = await api.sendPost({avatar: `https://spamigor.ru/${res.addr}`}, 'updUserData', `Bearer ${user.token}`);
         console.log(result.data.data[0]);
         setUser(result.data.data[0]);
         setLoadVisible(false);
