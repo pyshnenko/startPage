@@ -52,11 +52,11 @@ export default function About({darkMode, width, user, login, api}: InpData) {
 
 const itemData = [
     {
-      img: 'https://spamigor.site/fiches/img/1.jpg',
+      img: 'https://spamigor.ru/fiches/img/1.jpg',
       title: 'table',
     },
     {
-      img: 'https://spamigor.site/fiches/img/2.jpg',
+      img: 'https://spamigor.ru/fiches/img/2.jpg',
       title: 'left',
     }
   ];

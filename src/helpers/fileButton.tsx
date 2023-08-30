@@ -20,11 +20,12 @@ interface inpDat {
         text: string, 
         iBuf: any, 
         user: string
-    )=>void}
+    )=>void,
+    sendStatus: boolean,
+    setSendStatus:(st: boolean)=>void
+}
 
-export default function FileButton({recipient, darkMode, sendMess}:inpDat) {
-
-    const [ sendStatus, setSendStatus ] = useState<Boolean>(false);
+export default function FileButton({recipient, darkMode, sendMess, sendStatus, setSendStatus}:inpDat) {
     const [ sendCount, setSendCount ] = useState<number>(0);
     const [ sendTotal, setSendTotal ] = useState<number>(0);
 
@@ -83,10 +84,10 @@ export default function FileButton({recipient, darkMode, sendMess}:inpDat) {
                     body: data,
                     signal: loadController.signal
                 }                
-                const response = await fetch('https://spamigor.site/apiChat', options);
+                const response = await fetch('https://spamigor.ru/apiChat', options);
                 const res = await response.json();
                 console.log(res);
-                sendMess(`${mode===actions[0].name?'img:':'doc:'}|https://spamigor.site/${encodeURI(res.addr)}`, null, recipient);
+                sendMess(`${mode===actions[0].name?'img:':'doc:'}|https://spamigor.ru/${encodeURI(res.addr)}`, null, recipient);
                 setSendCount(i+1);
             }
             setSendCount(0);

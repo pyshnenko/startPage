@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.5dfa490f.css",
+    "main.js": "/static/js/main.be3852e6.js",
+    "static/js/787.32d91862.chunk.js": "/static/js/787.32d91862.chunk.js",
+    "static/media/Vasek Italic_0.ttf": "/static/media/Vasek Italic_0.2f7614224eea82c2bee8.ttf",
+    "index.html": "/index.html",
+    "main.5dfa490f.css.map": "/static/css/main.5dfa490f.css.map",
+    "main.be3852e6.js.map": "/static/js/main.be3852e6.js.map",
+    "787.32d91862.chunk.js.map": "/static/js/787.32d91862.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5dfa490f.css",
+    "static/js/main.be3852e6.js"
+  ]
+}
