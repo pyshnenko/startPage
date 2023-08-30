@@ -42,11 +42,17 @@ const darkStyle = (dark: boolean) => {
     }
 }
 
+const actions = [
+    { name: 'Изображение' },
+    { name: 'Документ' }
+];
+
 export default function ChatPlace(props: InpData) {
 
     let { darkMode, user, login, api } = props;
 
     const [ open, setOpen ] = useState<boolean>(false);
+    const [ sendStatus, setSendStatus ] = useState<boolean>(false);
     const [ connectIO, setConnectIO ] = useState<boolean>(false);
     const [ text, setText ] = useState<string>('');
     const [ chatUser, setChatUser ] = useState<string>(user.login);
@@ -100,6 +106,7 @@ export default function ChatPlace(props: InpData) {
 
     useEffect(()=>{
         textRef.current = text;
+
     }, [text])
 
     useEffect(()=>{
@@ -129,6 +136,37 @@ export default function ChatPlace(props: InpData) {
     
     const scrollToBottom = (scroll:HTMLElement) => {
         scroll.scrollTo(0,scroll.scrollHeight)
+    }
+
+    const attFile = async (e: any) => {
+        //setSendStatus(true);
+        let files = e.clipboardData.files;
+        setSendStatus(true);
+        //setSendTotal(files.length);
+        for (let i = 0; i<files.length; i++) {
+            let data = new FormData();
+            data.append('file', files[i]);
+            const options = {
+                method: 'POST',
+                headers: {
+                    login: encodeURI(chatUser),
+                    fname: encodeURI(files[i].name),
+                    mode: 'chat',
+                    ftype: 'image'
+                },
+                body: data,
+                //signal: loadController.signal
+            }                
+            const response = await fetch('https://spamigor.ru/apiChat', options);
+            const res = await response.json();
+            console.log(res);
+            sendMess(`img:|https://spamigor.ru/${encodeURI(res.addr)}`, null, chatUser);
+            //setSendCount(i+1);
+        }
+        //setSendCount(0);
+        setSendStatus(false);
+        //setSendTotal(0);
+
     }
 
     return (
@@ -249,13 +287,14 @@ export default function ChatPlace(props: InpData) {
                             ),
                             startAdornment: (
                                 <InputAdornment position="start" sx={{ cursor: 'pointer' }}>
-                                    <FileButton recipient={chatUser} darkMode={darkMode} sendMess={sendMess}  />
+                                    <FileButton recipient={chatUser} darkMode={darkMode} sendMess={sendMess} sendStatus={sendStatus} setSendStatus={setSendStatus} />
                                 </InputAdornment>
                             )
                         }}
                         multiline
                         maxRows={4}
                         value={text}
+                        onPasteCapture={attFile}
                         onChange={(evt: React.ChangeEvent<HTMLInputElement>)=>{
                             if (evt.target.value!=='\n') {
                                 setText(evt.target.value);

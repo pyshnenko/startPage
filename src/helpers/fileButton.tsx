@@ -20,11 +20,12 @@ interface inpDat {
         text: string, 
         iBuf: any, 
         user: string
-    )=>void}
+    )=>void,
+    sendStatus: boolean,
+    setSendStatus:(st: boolean)=>void
+}
 
-export default function FileButton({recipient, darkMode, sendMess}:inpDat) {
-
-    const [ sendStatus, setSendStatus ] = useState<Boolean>(false);
+export default function FileButton({recipient, darkMode, sendMess, sendStatus, setSendStatus}:inpDat) {
     const [ sendCount, setSendCount ] = useState<number>(0);
     const [ sendTotal, setSendTotal ] = useState<number>(0);
 
