@@ -12,6 +12,9 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FileButton from './fileButton';
 import ChatIcon from '@mui/icons-material/Chat';
+import CyrillicToTranslit from 'cyrillic-to-translit-js';
+
+const cyrillicToTranslit = new (CyrillicToTranslit as any)();
 
 interface InpData {
     darkMode: boolean,
@@ -142,27 +145,27 @@ export default function ChatPlace(props: InpData) {
         //setSendStatus(true);
         let files = e.clipboardData.files;
         setSendStatus(true);
-        //setSendTotal(files.length);
-        for (let i = 0; i<files.length; i++) {
-            let data = new FormData();
-            data.append('file', files[i]);
-            const options = {
-                method: 'POST',
-                headers: {
-                    login: encodeURI(chatUser),
-                    fname: encodeURI(files[i].name),
-                    mode: 'chat',
-                    ftype: 'image'
-                },
-                body: data,
-                //signal: loadController.signal
-            }                
-            const response = await fetch('https://spamigor.ru/apiChat', options);
-            const res = await response.json();
-            console.log(res);
-            sendMess(`img:|https://spamigor.ru/${encodeURI(res.addr)}`, null, chatUser);
-            //setSendCount(i+1);
-        }
+        if (files[0].type.indexOf())
+            for (let i = 0; i<files.length; i++) {
+                let data = new FormData();
+                data.append('file', files[i]);
+                const options = {
+                    method: 'POST',
+                    headers: {
+                        login: encodeURI(chatUser),
+                        fname: encodeURI(cyrillicToTranslit.transform(files[i].name, "_")),
+                        mode: 'chat',
+                        ftype: 'image'
+                    },
+                    body: data,
+                    //signal: loadController.signal
+                }                
+                const response = await fetch('https://spamigor.ru/apiChat', options);
+                const res = await response.json();
+                console.log(res);
+                sendMess(`img:|https://spamigor.ru/${encodeURI(res.addr)}`, null, chatUser);
+                //setSendCount(i+1);
+            }
         //setSendCount(0);
         setSendStatus(false);
         //setSendTotal(0);

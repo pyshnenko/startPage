@@ -7,6 +7,9 @@ import ImageIcon from '@mui/icons-material/Image';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import '../styles/filesStyle.css';
 import CircularProgress from '@mui/material/CircularProgress';
+import CyrillicToTranslit from 'cyrillic-to-translit-js';
+
+const cyrillicToTranslit = new (CyrillicToTranslit as any)();
 
 const actions = [
     { icon: <ImageIcon />, name: 'Изображение' },
@@ -71,13 +74,14 @@ export default function FileButton({recipient, darkMode, sendMess, sendStatus, s
             let files = e.target.files;
             setSendTotal(files.length);
             for (let i = 0; i<files.length; i++) {
+                console.log(cyrillicToTranslit.transform(files[i].name, "_"));
                 let data = new FormData();
                 data.append('file', files[i]);
                 const options = {
                     method: 'POST',
                     headers: {
                         login: encodeURI(recipient),
-                        fname: encodeURI(files[i].name),
+                        fname: encodeURI(cyrillicToTranslit.transform(files[i].name, "_")),
                         mode: 'chat',
                         ftype: mode===actions[0].name?'image':'document'
                     },
