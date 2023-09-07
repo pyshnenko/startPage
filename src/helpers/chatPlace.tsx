@@ -145,7 +145,7 @@ export default function ChatPlace(props: InpData) {
         //setSendStatus(true);
         let files = e.clipboardData.files;
         setSendStatus(true);
-        if (files[0].type.indexOf())
+        if (files[0]?.type.indexOf())
             for (let i = 0; i<files.length; i++) {
                 let data = new FormData();
                 data.append('file', files[i]);
