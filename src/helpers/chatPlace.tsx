@@ -11,6 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FileButton from './fileButton';
+import ImageFolder from './imageFolder';
 import ChatIcon from '@mui/icons-material/Chat';
 import CyrillicToTranslit from 'cyrillic-to-translit-js';
 
@@ -42,6 +43,7 @@ const darkStyle = (dark: boolean) => {
         flexDirection: 'column',
         justifyContent: 'space-between',
         alignItems: 'center',
+        zIndex: 10
     }
 }
 
@@ -55,6 +57,7 @@ export default function ChatPlace(props: InpData) {
     let { darkMode, user, login, api } = props;
 
     const [ open, setOpen ] = useState<boolean>(false);
+    const [ imgVisible, setImgVisible ] = useState<{visible: boolean, img: string}>({visible: false, img: ''});
     const [ sendStatus, setSendStatus ] = useState<boolean>(false);
     const [ connectIO, setConnectIO ] = useState<boolean>(false);
     const [ text, setText ] = useState<string>('');
@@ -179,6 +182,7 @@ export default function ChatPlace(props: InpData) {
                 id={open?'chatOpen':'chatClosed'}
                 onClick={()=>{if (!open) {setOpen(true); /*if (scrollPos.current!==undefined) setTimeout(scrollToBottom, 1000, scrollPos.current);*/}}}
             >
+                {imgVisible.visible&&<ImageFolder setVisible={setImgVisible} img={imgVisible.img} />}
                 
                 <Box sx={{ height: '50px', width: '100%', borderRadius: '50px', animation: open?'none':`3s infinite alternate ${darkMode?'tickB':'tickW'}`}} onClick={()=>setOpen(false)} >
                     {!open&&<Grow in={!open}><ChatIcon sx={{ color: 'aliceblue', position: 'relative', width: '35px', height: '35px', top: '9px', left: '7px' }} /></Grow>}
@@ -255,7 +259,8 @@ export default function ChatPlace(props: InpData) {
                                     {mess.text.map((item: string, index: number)=>{
                                         if (item==='') return (<br key={index}/>);
                                         else if (item.slice(0,4)==='img:') return (
-                                            <img src={item.slice(5)} key={index} id='chatFile'/>
+                                            <img src={item.indexOf('spamigor.site')>0? 'https://spamigor.ru/'+item.slice(27) : 
+                                                item.slice(5)} key={index} id='chatFile' onClick={()=>setImgVisible({visible: true, img: item.slice(5)})}/>
                                         )
                                         else if (item.slice(0,4)==='doc:') { 
                                             let fileName = item.slice(item.lastIndexOf('img/')+4);

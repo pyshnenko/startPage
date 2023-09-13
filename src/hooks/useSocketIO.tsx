@@ -57,7 +57,7 @@ export function useSocketIO(props: inpTypes) {
     }
 
     function onUpdChat(value: string) {
-        console.log(value);
+        //console.log(value);
         if (value!==null) 
         {
             let buf: any = JSON.parse(value);
