@@ -61,6 +61,8 @@ export default function ChatPlace(props: InpData) {
     const [ sendStatus, setSendStatus ] = useState<boolean>(false);
     const [ connectIO, setConnectIO ] = useState<boolean>(false);
     const [ text, setText ] = useState<string>('');
+    const [ countMessage, setCountMessage ] = useState<number>(20);
+    const countMessageRef = useRef<number>(20);
     const [ chatUser, setChatUser ] = useState<string>(user.login);
     const [ usList, setUsList ] = useState([{login: 'spamigor', role: 'admin', name:('Толян')}]);
     const [ chatMess, setChatMess ] = useState<any>([{login: 'spamigor', time: Number(new Date()), text: ['Hello World', '', 'word']},{login: 'spamigor2', time: Number(new Date()), text: ['Hello']}]);
@@ -117,8 +119,17 @@ export default function ChatPlace(props: InpData) {
 
     useEffect(()=>{
         chatMessArr.current = chatMess;
-        if (scrollPos.current!==undefined) scrollPos.current.scrollTo(0,scrollPos.current.scrollHeight);
+        if (scrollPos.current!==undefined) {
+            scrollPos.current.scrollTo(0,scrollPos.current.scrollHeight);
+            scrollPos.current.addEventListener('scroll', ()=>{
+                if ((scrollPos.current?.scrollTop)&&(scrollPos.current?.scrollTop<5)&&(countMessageRef.current<chatMessArr.current.length)) setCountMessage(countMessageRef.current+10);
+            });
+        }
     }, [chatMess])
+
+    useEffect(()=>{
+        countMessageRef.current = countMessage;
+    }, [countMessage])
 
     useEffect(()=>{
         userRef.current = chatUser;
@@ -137,6 +148,7 @@ export default function ChatPlace(props: InpData) {
     const handleChange = (event: SelectChangeEvent) => {
         setChatUser(event.target.value);
         setOpen(true);
+        setCountMessage(20);
         userSelect(event.target.value)
     };
     
@@ -242,7 +254,7 @@ export default function ChatPlace(props: InpData) {
                 >
                     {(chatMess!==undefined)&&(chatMess.length!==0)&&chatMess.map((mess:any, index:number)=>{  
                         return (
-                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: mess.login==='spamigor'?'flex-start':'flex-end' }} key={index}>
+                            <div key={index}>{(index>(chatMess.length-countMessage))?<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: mess.login==='spamigor'?'flex-start':'flex-end' }}>
                                 <Box 
                                     sx={{ 
                                         textAlign: mess.login==='spamigor'?'left':'right',
@@ -256,24 +268,24 @@ export default function ChatPlace(props: InpData) {
                                         wordBreak: 'break-all'
                                     }}
                                 >
-                                    {mess.text.map((item: string, index: number)=>{
-                                        if (item==='') return (<br key={index}/>);
+                                    {mess.text.map((item: string, inpIndex: number)=>{
+                                        if (item==='') return (<br key={inpIndex}/>);
                                         else if (item.slice(0,4)==='img:') return (
                                             <img src={item.indexOf('spamigor.site')>0? 'https://spamigor.ru/'+item.slice(27) : 
-                                                item.slice(5)} key={index} id='chatFile' onClick={()=>setImgVisible({visible: true, img: item.slice(5)})}/>
+                                                item.slice(5)} key={inpIndex} id='chatFile' onClick={()=>setImgVisible({visible: true, img: item.slice(5)})}/>
                                         )
                                         else if (item.slice(0,4)==='doc:') { 
                                             let fileName = item.slice(item.lastIndexOf('img/')+4);
                                             fileName = fileName.slice(fileName.indexOf('-')+1);
                                             return (
-                                                <a key={index} href={item.slice(5)} id='chatDocs' target='_blank' download><p>Скачать {fileName.slice(0, 30)+(fileName.length>30?'...':'')}</p></a>
+                                                <a key={inpIndex} href={item.slice(5)} id='chatDocs' target='_blank' download><p>Скачать {fileName.slice(0, 30)+(fileName.length>30?'...':'')}</p></a>
                                         )}
                                         else return (
-                                            <Typography key={index}>{item}</Typography>
+                                            <Typography key={inpIndex} sx={{wordBreak: 'break-word'}}>{item}</Typography>
                                         )
                                     })}
                                 </Box>
-                            </Box>
+                            </Box>: null}</div>
                         )
                     }, null)}
                 </Box></Grow>
