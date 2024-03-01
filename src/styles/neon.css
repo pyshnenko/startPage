@@ -35,19 +35,30 @@
 
 }
 
-#neonH2, #neonH2F, #neonH2l {
-    margin-top: 30px;
-    font-family: Vasek;
-    font-size: 100px;
-    color: #f0fff0;
-    text-shadow: 0 0 7px #fff,
-        0 0 10px #fff,
-        0 0 21px #fff,
-        0 0 42px #0fa,
-        0 0 82px #0fa,
-        0 0 92px #0fa,
-        0 0 102px #0fa,
-        0 0 151px #0fa;
+@media screen and (width < 500px) {
+    #neonH2, #neonH2F, #neonH2l {
+        margin-top: 30px;
+        font-family: Vasek;
+        font-size: 100px;
+        color: #0fa;
+        text-shadow: 0 0 21px #89ffd8,
+            0 0 42px #0fa;
+    }
+}
+
+@media screen and (width >= 500px) {
+    #neonH2, #neonH2F, #neonH2l {
+        margin-top: 30px;
+        font-family: Vasek;
+        font-size: 100px;
+        color: #f0fff0;
+        text-shadow: 0 0 7px #fff,
+            0 0 21px #fff,
+            0 0 42px #0fa,
+            0 0 151px #0fa;
+        animation: pulsate 0.11s ease-in-out infinite alternate;
+        animation: fSimbol infinite 10s linear;
+    }
 }
 
 #neonH2W, #neonH2FW, #neonH2lW {
@@ -72,7 +83,7 @@
 
 #neonH2, #neonH2l {
     /*animation: lights infinite 10s linear;*/
-    animation: pulsate 0.11s ease-in-out infinite alternate;
+    /*animation: pulsate 0.11s ease-in-out infinite alternate;*/
 }
 
 @keyframes pulsate {
@@ -80,24 +91,16 @@
         /* Larger blur radius */
         text-shadow:
         0 0 4px #fff,
-        0 0 11px #fff,
         0 0 19px #fff,
         0 0 40px #0fa,
-        0 0 80px #0fa,
-        0 0 90px #0fa,
-        0 0 100px #0fa,
         0 0 150px #0fa;
     }
     0% {
         /* A slightly smaller blur radius */
         text-shadow:
         0 0 4px #fff,
-        0 0 10px #fff,
         0 0 18px #fff,
         0 0 38px #0fa,
-        0 0 73px #0fa,
-        0 0 80px #0fa,
-        0 0 94px #0fa,
         0 0 140px #0fa;
     }
 }
@@ -224,7 +227,7 @@
 }
 
 #neonH2F {
-    animation: fSimbol infinite 10s linear;
+    /*animation: fSimbol infinite 10s linear;*/
 }
 
 @keyframes fSimbol {
@@ -317,34 +320,25 @@
     60.1% {
         color: #ffffff;
         text-shadow: 0 0 7px #fff,
-            0 0 14px #fff,
             0 0 24px #fff,
             0 0 49px #0fa,
-            0 0 89px #0fa,
             0 0 99px #0fa,
-            0 0 112px #0fa,
             0 0 161px #0fa;
     }
     70% {
         color: #ffffff;
         text-shadow: 0 0 7px #fff,
-            0 0 14px #fff,
             0 0 24px #fff,
             0 0 49px #0fa,
-            0 0 89px #0fa,
             0 0 99px #0fa,
-            0 0 112px #0fa,
             0 0 161px #0fa;
     }
     80% {
         color: #ffffff;
         text-shadow: 0 0 7px #fff,
-            0 0 13px #fff,
             0 0 23px #fff,
             0 0 45px #0fa,
-            0 0 85px #0fa,
             0 0 95px #0fa,
-            0 0 107px #0fa,
             0 0 154px #0fa;
     }
     89.9% {
