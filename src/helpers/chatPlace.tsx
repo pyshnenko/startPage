@@ -11,7 +11,11 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FileButton from './fileButton';
+import ImageFolder from './imageFolder';
 import ChatIcon from '@mui/icons-material/Chat';
+import CyrillicToTranslit from 'cyrillic-to-translit-js';
+
+const cyrillicToTranslit = new (CyrillicToTranslit as any)();
 
 interface InpData {
     darkMode: boolean,
@@ -39,16 +43,26 @@ const darkStyle = (dark: boolean) => {
         flexDirection: 'column',
         justifyContent: 'space-between',
         alignItems: 'center',
+        zIndex: 10
     }
 }
+
+const actions = [
+    { name: 'Изображение' },
+    { name: 'Документ' }
+];
 
 export default function ChatPlace(props: InpData) {
 
     let { darkMode, user, login, api } = props;
 
     const [ open, setOpen ] = useState<boolean>(false);
+    const [ imgVisible, setImgVisible ] = useState<{visible: boolean, img: string}>({visible: false, img: ''});
+    const [ sendStatus, setSendStatus ] = useState<boolean>(false);
     const [ connectIO, setConnectIO ] = useState<boolean>(false);
     const [ text, setText ] = useState<string>('');
+    const [ countMessage, setCountMessage ] = useState<number>(20);
+    const countMessageRef = useRef<number>(20);
     const [ chatUser, setChatUser ] = useState<string>(user.login);
     const [ usList, setUsList ] = useState([{login: 'spamigor', role: 'admin', name:('Толян')}]);
     const [ chatMess, setChatMess ] = useState<any>([{login: 'spamigor', time: Number(new Date()), text: ['Hello World', '', 'word']},{login: 'spamigor2', time: Number(new Date()), text: ['Hello']}]);
@@ -100,12 +114,22 @@ export default function ChatPlace(props: InpData) {
 
     useEffect(()=>{
         textRef.current = text;
+
     }, [text])
 
     useEffect(()=>{
         chatMessArr.current = chatMess;
-        if (scrollPos.current!==undefined) scrollPos.current.scrollTo(0,scrollPos.current.scrollHeight);
+        if (scrollPos.current!==undefined) {
+            scrollPos.current.scrollTo(0,scrollPos.current.scrollHeight);
+            scrollPos.current.addEventListener('scroll', ()=>{
+                if ((scrollPos.current?.scrollTop)&&(scrollPos.current?.scrollTop<5)&&(countMessageRef.current<chatMessArr.current.length)) setCountMessage(countMessageRef.current+10);
+            });
+        }
     }, [chatMess])
+
+    useEffect(()=>{
+        countMessageRef.current = countMessage;
+    }, [countMessage])
 
     useEffect(()=>{
         userRef.current = chatUser;
@@ -124,11 +148,43 @@ export default function ChatPlace(props: InpData) {
     const handleChange = (event: SelectChangeEvent) => {
         setChatUser(event.target.value);
         setOpen(true);
+        setCountMessage(20);
         userSelect(event.target.value)
     };
     
     const scrollToBottom = (scroll:HTMLElement) => {
         scroll.scrollTo(0,scroll.scrollHeight)
+    }
+
+    const attFile = async (e: any) => {
+        //setSendStatus(true);
+        let files = e.clipboardData.files;
+        setSendStatus(true);
+        if (files[0]?.type.indexOf())
+            for (let i = 0; i<files.length; i++) {
+                let data = new FormData();
+                data.append('file', files[i]);
+                const options = {
+                    method: 'POST',
+                    headers: {
+                        login: encodeURI(chatUser),
+                        fname: encodeURI(cyrillicToTranslit.transform(files[i].name, "_")),
+                        mode: 'chat',
+                        ftype: 'image'
+                    },
+                    body: data,
+                    //signal: loadController.signal
+                }                
+                const response = await fetch('https://spamigor.ru/apiChat', options);
+                const res = await response.json();
+                console.log(res);
+                sendMess(`img:|https://spamigor.ru/${encodeURI(res.addr)}`, null, chatUser);
+                //setSendCount(i+1);
+            }
+        //setSendCount(0);
+        setSendStatus(false);
+        //setSendTotal(0);
+
     }
 
     return (
@@ -138,6 +194,7 @@ export default function ChatPlace(props: InpData) {
                 id={open?'chatOpen':'chatClosed'}
                 onClick={()=>{if (!open) {setOpen(true); /*if (scrollPos.current!==undefined) setTimeout(scrollToBottom, 1000, scrollPos.current);*/}}}
             >
+                {imgVisible.visible&&<ImageFolder setVisible={setImgVisible} img={imgVisible.img} />}
                 
                 <Box sx={{ height: '50px', width: '100%', borderRadius: '50px', animation: open?'none':`3s infinite alternate ${darkMode?'tickB':'tickW'}`}} onClick={()=>setOpen(false)} >
                     {!open&&<Grow in={!open}><ChatIcon sx={{ color: 'aliceblue', position: 'relative', width: '35px', height: '35px', top: '9px', left: '7px' }} /></Grow>}
@@ -197,7 +254,7 @@ export default function ChatPlace(props: InpData) {
                 >
                     {(chatMess!==undefined)&&(chatMess.length!==0)&&chatMess.map((mess:any, index:number)=>{  
                         return (
-                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: mess.login==='spamigor'?'flex-start':'flex-end' }} key={index}>
+                            <div key={index}>{(index>(chatMess.length-countMessage))?<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: mess.login==='spamigor'?'flex-start':'flex-end' }}>
                                 <Box 
                                     sx={{ 
                                         textAlign: mess.login==='spamigor'?'left':'right',
@@ -211,23 +268,24 @@ export default function ChatPlace(props: InpData) {
                                         wordBreak: 'break-all'
                                     }}
                                 >
-                                    {mess.text.map((item: string, index: number)=>{
-                                        if (item==='') return (<br key={index}/>);
+                                    {mess.text.map((item: string, inpIndex: number)=>{
+                                        if (item==='') return (<br key={inpIndex}/>);
                                         else if (item.slice(0,4)==='img:') return (
-                                            <img src={item.slice(5)} key={index} id='chatFile'/>
+                                            <img src={item.indexOf('spamigor.site')>0? 'https://spamigor.ru/'+item.slice(27) : 
+                                                item.slice(5)} key={inpIndex} id='chatFile' onClick={()=>setImgVisible({visible: true, img: item.slice(5)})}/>
                                         )
                                         else if (item.slice(0,4)==='doc:') { 
                                             let fileName = item.slice(item.lastIndexOf('img/')+4);
                                             fileName = fileName.slice(fileName.indexOf('-')+1);
                                             return (
-                                                <a key={index} href={item.slice(5)} id='chatDocs' target='_blank' download><p>Скачать {fileName.slice(0, 30)+(fileName.length>30?'...':'')}</p></a>
+                                                <a key={inpIndex} href={item.slice(5)} id='chatDocs' target='_blank' download><p>Скачать {fileName.slice(0, 30)+(fileName.length>30?'...':'')}</p></a>
                                         )}
                                         else return (
-                                            <Typography key={index}>{item}</Typography>
+                                            <Typography key={inpIndex} sx={{wordBreak: 'break-word'}}>{item}</Typography>
                                         )
                                     })}
                                 </Box>
-                            </Box>
+                            </Box>: null}</div>
                         )
                     }, null)}
                 </Box></Grow>
@@ -249,13 +307,14 @@ export default function ChatPlace(props: InpData) {
                             ),
                             startAdornment: (
                                 <InputAdornment position="start" sx={{ cursor: 'pointer' }}>
-                                    <FileButton recipient={chatUser} darkMode={darkMode} sendMess={sendMess}  />
+                                    <FileButton recipient={chatUser} darkMode={darkMode} sendMess={sendMess} sendStatus={sendStatus} setSendStatus={setSendStatus} />
                                 </InputAdornment>
                             )
                         }}
                         multiline
                         maxRows={4}
                         value={text}
+                        onPasteCapture={attFile}
                         onChange={(evt: React.ChangeEvent<HTMLInputElement>)=>{
                             if (evt.target.value!=='\n') {
                                 setText(evt.target.value);

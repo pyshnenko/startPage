@@ -47,35 +47,35 @@ export default function About({darkMode}: InpData) {
 
     const data:Array<ArrDara> = [
         {
-            href: "https://spamigor.site/fiches/img/4011.PNG",
+            href: "https://spamigor.ru/fiches/img/4011.PNG",
             title: "4011",
             text: 'Первый опыт с авторизацией, шаблонированием, токенами, cookies и прочим. Развернут на Node.js. Данные пользователя хранятся в mongodb, ключ в redis. По токену можно получить доступ к первой API, способной распознавать текст. На сайте есть игры, написанные на JS в процессе изучения языка. Иногда там появляется дыра',
-            url: 'https://spamigor.site/4011',
+            url: 'https://spamigor.ru/4011',
             git: 'https://github.com/pyshnenko/http2'
         },
         {
-            href: "https://spamigor.site/fiches/img/4014.PNG",
+            href: "https://spamigor.ru/fiches/img/4014.PNG",
             title: "4014",
             text: "Безумству храбрых поем мы песни. Кто отважился зайти в дыру, попадают в следующий мой проект. Нас окружает зереный мир и дорога в закат. Есть возможность динамически настраивать происходящее. Управление мышью или клавиатурой. Графика Three.JS. С объектами можно контактировать",
-            url: 'https://spamigor.site/4014',
+            url: 'https://spamigor.ru/4014',
             git: 'https://github.com/pyshnenko/threejs'
         },
         {
-            href: "https://spamigor.site/fiches/img/40141587.PNG",
+            href: "https://spamigor.ru/fiches/img/40141587.PNG",
             title: "4014/1587",
             text: "В космос трудно добраться. Еще сложнее добраться сюда так как ссылок кроме этой нет. Графика Three.js, взаимодействие с объектами и бэйгл в центре. Здесь можно регулировать параметры света. Поверхность бублика использована для пупырышек",
-            url: 'https://spamigor.site/4014/1587',
+            url: 'https://spamigor.ru/4014/1587',
             git: 'https://github.com/pyshnenko/threejs'
         },
         {
-            href: "https://spamigor.site/fiches/img/8080.jpg",
+            href: "https://spamigor.ru/fiches/img/8080.jpg",
             title: "Дата-центр",
             text: "Первые попытди сделать собственный DashBoard. Все мои ранние проекты по WebSocket передают сюда данные. Можно увидеть какой из сайтов лежит, увидеть действия пользователей а также управлять сервером дворецкого",
-            url: 'https://control.spamigor.site',
+            url: 'https://control.spamigor.ru',
             git: 'https://github.com/pyshnenko/wsBeta'
         },
         {
-            href: "https://spamigor.site/fiches/img/doors.jpg",
+            href: "https://spamigor.ru/fiches/img/doors.jpg",
             title: "Дворецкий",
             text: "Изначально, бот Альфред создавался как учебный проект на одноплатном компьютере Raspberry PI. В его возможности входил запрос погоды, отправка изображений на мой API по распознаванию текста. Затем я стал его развивать и подключать схемотехнику. Появилась возможность управлять подсветкой в доме и открывать шлагбаум. Тут даже есть живые пользователи. Реализована автоматическая перезагрузка, перезагрузка по команде, удаленное обновление исполняемого файла (через Git)",
             url: 'https://t.me/myHomeLightController_bot',

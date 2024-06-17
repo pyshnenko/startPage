@@ -57,6 +57,9 @@
             0 0 42px #0fa,
             0 0 151px #0fa;
         animation: pulsate 0.11s ease-in-out infinite alternate;
+        /*animation: fSimbol infinite 10s linear;*/
+    }
+    #neonH2F {
         animation: fSimbol infinite 10s linear;
     }
 }
@@ -226,9 +229,6 @@
     }
 }
 
-#neonH2F {
-    /*animation: fSimbol infinite 10s linear;*/
-}
 
 @keyframes fSimbol {
     0% {

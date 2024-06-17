@@ -26,6 +26,8 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import {stateSettings} from '../mech/mechanic';
+import DataObjectIcon from '@mui/icons-material/DataObject';
+import ViewInArIcon from '@mui/icons-material/ViewInAr';
 
 interface InpData {  
     login: boolean,
@@ -74,8 +76,8 @@ export default function MenuS(props: InpData) {
       color: darkTheme.palette.mode==='dark'?'white':'dimgray'
     }
 
-    const listAdr = 'https://spamigor.site/list';
-    const s3Adr = 'https://spamigor.site/s3';
+    const listAdr = 'https://spamigor.ru/list';
+    const s3Adr = 'https://spamigor.ru/s3';
     const ar = 'https://ar.spamigor.ru';
     const cloud = 'https://cloud.spamigor.ru';
 

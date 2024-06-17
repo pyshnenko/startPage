@@ -16,7 +16,7 @@ import sApi from './mech/api';
 import SingInPage from './pages/SingInPage';
 import {setParams, stateSettings, setLoadParams, loadTypes} from './mech/mechanic';
 import ChatPlace from './helpers/chatPlace';
-const url = 'https://spamigor.site/api';
+const url = 'https://spamigor.ru/api';
 
 const api = new sApi(url);
 
