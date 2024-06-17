@@ -26,8 +26,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import {stateSettings} from '../mech/mechanic';
-import DataObjectIcon from '@mui/icons-material/DataObject';
-import ViewInArIcon from '@mui/icons-material/ViewInAr';
 
 interface InpData {  
     login: boolean,
