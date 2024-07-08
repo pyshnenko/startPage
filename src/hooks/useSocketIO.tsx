@@ -48,6 +48,7 @@ export function useSocketIO(props: inpTypes) {
         setConnectIO(true);
         console.log(user.login);
         socket.emit('chatStart', user.login);
+        socket.emit('otherProject', JSON.stringify({from: user.login, text: 'шарится по главной'}));
     }
 
     function onDisconnect() {
