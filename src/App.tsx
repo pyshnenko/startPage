@@ -16,6 +16,7 @@ import sApi from './mech/api';
 import SingInPage from './pages/SingInPage';
 import {setParams, stateSettings, setLoadParams, loadTypes} from './mech/mechanic';
 import ChatPlace from './helpers/chatPlace';
+import axios from 'axios';
 const url = 'https://spamigor.ru/api';
 
 const api = new sApi(url);
@@ -37,6 +38,14 @@ function App() {
   const trig = useRef<boolean>(true)
   let stateSetter = setParams(setState, state, 500, growIn, setGrowIn);
   let loadOptions = setLoadParams({loadState, growState, setLoadState, setLoadGrow})
+  const baseURL: string = 'cloud.spamigor.ru/socket';
+  const jsonHeader: any = {
+    "Content-type": "application/json"
+  };
+  const socketApi = () => axios.create({
+      baseURL,
+      headers: jsonHeader
+  });
 
   useEffect(() => {
       if (trig.current) {
@@ -76,7 +85,8 @@ function App() {
                   setUser({});
                   stateSetter('');
                   localStorage.clear();
-                  loadOptions(false);
+                  loadOptions(false);                  
+                  socketApi().post('/', {text: `На главной странице`, from: 'Некто'})
                 }
                 else {
                   setUser(res.data.data[0]);
@@ -85,6 +95,7 @@ function App() {
                   setLogin(true);
                   console.log('data upd');
                   loadOptions(false);
+                  socketApi().post('/', {text: `На главной странице`, from: res.data.data[0].login})
                 }
               })
             }
