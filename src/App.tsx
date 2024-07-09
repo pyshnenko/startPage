@@ -38,7 +38,7 @@ function App() {
   const trig = useRef<boolean>(true)
   let stateSetter = setParams(setState, state, 500, growIn, setGrowIn);
   let loadOptions = setLoadParams({loadState, growState, setLoadState, setLoadGrow})
-  const baseURL: string = 'cloud.spamigor.ru/socket';
+  const baseURL: string = 'https://cloud.spamigor.ru/socket';
   const jsonHeader: any = {
     "Content-type": "application/json"
   };
@@ -100,6 +100,9 @@ function App() {
               })
             }
           }
+        }
+        else {
+          socketApi().post('/', {text: `На главной странице`, from: 'Некто'})
         }
         //обработка параметров из uri
         const params = new URLSearchParams(window.location.search);
