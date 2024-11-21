@@ -68,12 +68,14 @@ export default function ChatPlace(props: InpData) {
     const [ chatMess, setChatMess ] = useState<any>([{login: 'spamigor', time: Number(new Date()), text: ['Hello World', '', 'word']},{login: 'spamigor2', time: Number(new Date()), text: ['Hello']}]);
     const shift = useRef<boolean>(false);
 
-    const { sendIO, userSelect }: {sendIO: any, userSelect: (val: string)=>void} = useSocketIO({ open, chatMess, setChatMess, user, login, setConnectIO });
+    const { showMessage, sendIO, userSelect }: {showMessage: (val:boolean)=>void, sendIO: any, userSelect: (val: string)=>void} = 
+        useSocketIO({ open, chatMess, setChatMess, user, login, setConnectIO });
 
     const textRef = useRef<string>(text);
     const userRef = useRef<string>(chatUser);
     const chatMessArr = useRef<any>(chatMess);
     const trigger = useRef<Boolean>(true);
+    const openRef = useRef<Boolean>(open);
         
     const onKeypress = (e: any) => {
         if ((e.code==='ShiftLeft')||(e.code==='ShiftRight')) {
@@ -103,6 +105,7 @@ export default function ChatPlace(props: InpData) {
 
         document.addEventListener('keydown', onKeypress);
         document.addEventListener('keyup', onKeyUp);
+        document.addEventListener("visibilitychange", () => {showMessage(document.hidden?true:!openRef.current)});
 
         scrollPos.current = document.getElementById('chatWindow') as HTMLElement;
       
@@ -134,6 +137,11 @@ export default function ChatPlace(props: InpData) {
     useEffect(()=>{
         userRef.current = chatUser;
     }, [chatUser])
+
+    useEffect(()=>{
+        openRef.current = open;
+        showMessage(!open);
+    }, [open])
 
     const sendMess = (text:string, iBuf: any, user: string) => {
         if (true)

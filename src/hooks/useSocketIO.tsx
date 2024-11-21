@@ -9,6 +9,7 @@ const URL ='https://io.spamigor.ru';
 let connectS = false;
 let open: boolean, chatMess: any, setChatMess: (val: any)=>void, user: any, login: boolean, setConnectIO: (val: boolean)=>void;
 let lastMessDat: {time: number, login: string} = {time: 0, login: ''};
+let showMessage: boolean = true;
 
 interface inpTypes {
     open: boolean, 
@@ -82,7 +83,7 @@ export function useSocketIO(props: inpTypes) {
             chatMess = buf;
             setChatMess(buf);
             console.log(Notification.permission);
-            if ("Notification" in window) {
+            if (("Notification" in window)&&(showMessage)) {
                 if (Notification.permission === "granted") {
                     new Notification(`${inpBuf.login}: ${inpBuf.text.join('\n')}`, notificationOptions);
                 }
@@ -106,10 +107,15 @@ export function useSocketIO(props: inpTypes) {
         socket.emit('updUserData', user.login);
     }
 
+    function setShowMessage(val: boolean) {
+        showMessage = val;
+    }
+
     return {
         socket,
         sendIO,
         connect: connectS,
-        userSelect: onUserSelect
+        userSelect: onUserSelect,
+        showMessage: setShowMessage
     }
 }
