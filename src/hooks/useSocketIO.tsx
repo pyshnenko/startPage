@@ -1,4 +1,5 @@
 import { io } from 'socket.io-client';
+import {notificationOptions} from '../mech/notificationOption';
 
 
 import copy from 'fast-copy';
@@ -80,6 +81,19 @@ export function useSocketIO(props: inpTypes) {
             buf.push(inpBuf);
             chatMess = buf;
             setChatMess(buf);
+            console.log(Notification.permission);
+            if ("Notification" in window) {
+                if (Notification.permission === "granted") {
+                    new Notification(`${inpBuf.login}: ${inpBuf.text.join('\n')}`, notificationOptions);
+                }
+                else if (Notification.permission !== "denied") {
+                    Notification.requestPermission(function (permission) {
+                        if (permission === "granted") {
+                            new Notification(`${inpBuf.login}: ${inpBuf.text.join('\n')}`, notificationOptions);
+                        }
+                    });
+                }
+            }
         //}
     }
 
