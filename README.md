@@ -1,6 +1,6 @@
 # Центральный сайт толяна
 
-![](https://spamigor.ru/demoFiles/startPage_360.gif)
+![](/public/demoFiles/startPage_360.gif)
 
 есть ссылка на старые проекты
 
