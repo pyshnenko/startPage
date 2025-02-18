@@ -76,7 +76,6 @@ export default function MenuS(props: InpData) {
 
     const listAdr = 'https://spamigor.ru/list';
     const s3Adr = 'https://spamigor.ru/s3';
-    const ar = 'https://ar.spamigor.ru';
     const cloud = 'https://cloud.spamigor.ru';
 
     const list = () => (
@@ -120,7 +119,7 @@ export default function MenuS(props: InpData) {
                     </ListItemButton>
                 </ListItem>
                 <ListItem key={menuPos[4]} disablePadding>
-                    <ListItemButton onClick={()=>{window.location.assign(ar)}}>
+                    <ListItemButton onClick={()=>stateSettings('ar')}>
                         <ListItemIcon>
                             <ViewInArIcon />
                         </ListItemIcon>
@@ -175,10 +174,10 @@ export default function MenuS(props: InpData) {
                         <CloudUploadIcon sx={imgStyle} id="img" />
                         <h1 className={darkTheme.palette.mode==='dark'?"h1D":"h1W"}>Облачко</h1>
                     </div></a>
-                    <a className={darkTheme.palette.mode==='dark'?"aClass":"aClassW"} href={ar}><div className="button">                    
+                    <div className={darkTheme.palette.mode==='dark'?"aClass":"aClassW"} onClick={()=>stateSettings('ar')}><div className="button">                    
                         <ViewInArIcon sx={imgStyle} id="img" />
                         <h1 className={darkTheme.palette.mode==='dark'?"h1D":"h1W"}>AR</h1>
-                    </div></a>
+                    </div></div>
                     <div className={darkTheme.palette.mode==='dark'?"aClass":"aClassW"} onClick={()=>stateSettings('old')}><div className="button">                   
                         <ElderlyIcon sx={imgStyle} id="img" />
                         <h1 className={darkTheme.palette.mode==='dark'?"h1D":"h1W"} id="doubleString">Старые проекты</h1>

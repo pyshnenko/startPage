@@ -64,6 +64,10 @@ export default function SingInPage({setLogin, setUser, user, api}: InpData) {
         <Box sx={{width: '100%', display: 'flex', justifyContent: 'center'}}>
             <Grow in={grow}>
                 <Paper sx={{margin: 3, padding: 2, width: '300px'}} elevation={12}>
+                    <Box component="form" id='guestForm' onSubmit={formData} display={'none'}>
+                        <TextField error={errorMess} value={"guest"} label="Логин" variant="standard" name='login' />
+                        <TextField error={errorMess} value={"12345678"} type="password" label="Пароль" variant="standard" name='pass' />
+                    </Box>
                     <Box component="form" onSubmit={formData}>
                         {errorMess&&<Typography sx={{color: 'red'}}>Некорректные данные</Typography>}
                         {errorNet&&<Typography sx={{color: 'red'}}>Нет интернета</Typography>}
@@ -77,7 +81,7 @@ export default function SingInPage({setLogin, setUser, user, api}: InpData) {
                                 <Button type='submit' sx={{margin:1}} color="success" variant="contained">Вход</Button>
                                 <Button onClick={() => stateSettings('register')} sx={{margin:1}} color="primary" variant="contained">Регистрация</Button>
                             </Box>
-                                <Button onClick={() => stateSettings('guests')} color="secondary" variant="outlined">Гостевой режим</Button>
+                                <Button type='submit' form="guestForm" id="guest" name="guest" color="secondary" variant="outlined">Гостевой режим</Button>
                         </Box>
                     </Box>
                 </Paper>

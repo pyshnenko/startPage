@@ -7,6 +7,7 @@ import ColorModeButton from './helpers/colorModeButton';
 import Loading from './helpers/loading';
 import HomePage from './pages/HomePage';
 import About from './pages/About';
+import Ar from './pages/Ar';
 import Settings from './pages/Settings';
 import OldPage from './pages/OldPage';
 import Register from './pages/Register';
@@ -180,6 +181,7 @@ function App() {
             {state==='home'&&login&&<HomePage user={user} setUser={setUser} api={api} darkMode={darkMode} width={width} login={login} setLogin={setLogin} />}
             {state==='old'&&<OldPage darkMode={darkMode} />}
             {state==='register'&&<Register api={api} />}
+            {state==='ar'&&<Ar darkMode={darkMode} width={width} user={user} login={login} api={api} />}
             {state==='about'&&<About darkMode={darkMode} width={width} user={user} login={login} api={api} />}
             {state==='settings'&&<Settings loadingMode={loadingMode} setLoadingMode={setLoadingMode} darkMode={darkMode} setDarkMode={setDarkMode} neonOn={neonOn} setNeonOn={setNeonOn} />}
           </div>
