@@ -36,13 +36,17 @@ export default function About({darkMode, width, user, login, api}: InpData) {
                                 alt={itemData[1].title}
                                 loading="lazy"
                             /></Box>
-                            <Typography sx={{marginLeft: width<500?'0px': '30px', fontSize: width<500?'large':'X-large', fontWeight: '800'}}>АНТОН ПЫШНЕНКО</Typography>
+                            <Box>
+                                <Typography sx={{marginLeft: width<500?'0px': '30px', fontSize: width<500?'large':'X-large', fontWeight: '800'}}>АНТОН ПЫШНЕНКО</Typography>
+                                <Typography sx={{marginLeft: width<500?'0px': '30px', fontSize: width<500?'large':'large', fontWeight: '400'}}>tg, whatsApp, телефон: +7(999)981-10-66</Typography>
+                            </Box>
                         </Box>
                         <Typography sx={{ textTransform: 'uppercase', fontWeight: '600' }}>Он же Толян, он же Spamigor</Typography>
                         <Typography sx={{ textTransform: 'uppercase', fontWeight: '600' }}>Обладатель карты "Тройка"</Typography>
                         <Typography sx={{ textTransform: 'uppercase', fontWeight: '600' }}>Мало пьёт и всегда недоволен</Typography>
                         <Typography sx={{ textTransform: 'uppercase', fontWeight: '600' }}>Характер скверный</Typography>
                         <Typography sx={{ textTransform: 'uppercase', fontWeight: '600' }}>Не женат</Typography>
+                        <Typography sx={{fontWeight: '600' }}><a href="mailto:79999811066@yandex.ru">79999811066@yandex.ru</a></Typography>
                     </Paper>
                 </Grow>
             </div>
