@@ -41,12 +41,13 @@ export default function About({darkMode, width, user, login, api}: InpData) {
                                 <Typography sx={{marginLeft: width<500?'0px': '30px', fontSize: width<500?'large':'large', fontWeight: '400'}}>tg, whatsApp, телефон: +7(999)981-10-66</Typography>
                             </Box>
                         </Box>
-                        <Typography sx={{ textTransform: 'uppercase', fontWeight: '600' }}>Он же Толян, он же Spamigor</Typography>
-                        <Typography sx={{ textTransform: 'uppercase', fontWeight: '600' }}>Обладатель карты "Тройка"</Typography>
-                        <Typography sx={{ textTransform: 'uppercase', fontWeight: '600' }}>Мало пьёт и всегда недоволен</Typography>
-                        <Typography sx={{ textTransform: 'uppercase', fontWeight: '600' }}>Характер скверный</Typography>
-                        <Typography sx={{ textTransform: 'uppercase', fontWeight: '600' }}>Не женат</Typography>
-                        <Typography sx={{fontWeight: '600' }}><a href="mailto:79999811066@yandex.ru">79999811066@yandex.ru</a></Typography>
+                        <Typography sx={{fontWeight: '600' }}>Изучал JS, а затем TS самостоятельно,</Typography>
+                        <Typography sx={{fontWeight: '600' }}>без курсов. По книгам и документациям.</Typography>
+                        <Typography sx={{fontWeight: '600', marginTop: 2 }}>В коммерческой сфере применял знания</Typography>
+                        <Typography sx={{fontWeight: '600' }}>в школе программирования CodeGap</Typography>
+                        <Typography sx={{fontWeight: '600' }}>с 2022 года (официально с 2023)</Typography>
+                        <Typography sx={{fontWeight: '600', marginTop: 2 }}>Мой личный гит: <a href='https://github.com/pyshnenko'>gitHub</a></Typography>
+                        <Typography sx={{fontWeight: '600', marginTop: 2  }}>личная почта: <a href="mailto:79999811066@yandex.ru">79999811066@yandex.ru</a></Typography>
                     </Paper>
                 </Grow>
             </div>

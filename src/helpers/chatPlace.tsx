@@ -229,7 +229,7 @@ export default function ChatPlace(props: InpData) {
                             }} 
                         />
                         {user.role!=='admin'?
-                            <Typography sx={{ color: darkMode?'black':'white' }}>Чат с Толяном</Typography> :
+                            <Typography sx={{ color: darkMode?'black':'white' }}>Чат с Антоном</Typography> :
                             <FormControl sx={{ minWidth: 120 }} size="small">
                                 <Select
                                     labelId="demo-select-small-label"
