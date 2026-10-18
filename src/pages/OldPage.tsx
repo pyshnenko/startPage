@@ -13,10 +13,44 @@ import { useTheme } from '@mui/material/styles';
 import MobileStepper from '@mui/material/MobileStepper';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import SwipeableViews from 'react-swipeable-views';
-import { autoPlay } from 'react-swipeable-views-utils';
 
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
+interface AutoPlaySwipeableViewsProps {
+    index: number;
+    onChangeIndex: (index: number) => void;
+    children: React.ReactNode;
+    style?: React.CSSProperties;
+    enableMouseEvents?: boolean;
+    axis?: string;
+}
+
+/** Small local carousel replacement: keeps autoplay and touch swiping without the
+ * legacy react-swipeable-views dependency, which is not compatible with React 19. */
+function AutoPlaySwipeableViews({ index, onChangeIndex, children, style }: AutoPlaySwipeableViewsProps) {
+    const startX = React.useRef<number | null>(null);
+    const slides = React.Children.toArray(children);
+    useEffect(() => {
+        const timer = window.setInterval(() => onChangeIndex((index + 1) % slides.length), 5000);
+        return () => window.clearInterval(timer);
+    }, [index, onChangeIndex, slides.length]);
+    return (
+        <div
+            style={{ overflow: 'hidden', touchAction: 'pan-y', ...style }}
+            onTouchStart={(event) => { startX.current = event.touches[0]?.clientX ?? null; }}
+            onTouchEnd={(event) => {
+                if (startX.current === null) return;
+                const delta = (event.changedTouches[0]?.clientX ?? startX.current) - startX.current;
+                if (Math.abs(delta) > 45) {
+                    onChangeIndex(Math.max(0, Math.min(slides.length - 1, index + (delta < 0 ? 1 : -1))));
+                }
+                startX.current = null;
+            }}
+        >
+            <div style={{ display: 'flex', width: `${slides.length * 100}%`, transform: `translateX(-${index * (100 / slides.length)}%)`, transition: 'transform 300ms ease' }}>
+                {slides.map((slide, slideIndex) => <div key={slideIndex} style={{ width: `${100 / slides.length}%`, flex: `0 0 ${100 / slides.length}%`, minWidth: 0 }}>{slide}</div>)}
+            </div>
+        </div>
+    );
+}
 
 interface InpData {
     darkMode: boolean

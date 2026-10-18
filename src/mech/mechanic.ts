@@ -101,6 +101,5 @@ export function createMech(setState: (value: string)=>void, state: string, delay
 }
 
 export function getMech() {
-    console.log(globeExport);
     return globeExport;
 }*/

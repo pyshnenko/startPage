@@ -35,7 +35,6 @@ export default function SingInPage({setLogin, setUser, user, api}: InpData) {
             pass: form.get('pass')
         };
 
-        console.log(data);
         if (!data.login||!data.pass) setErrorMess(true);
         else {
             setErrorMess(false);
@@ -53,7 +52,7 @@ export default function SingInPage({setLogin, setUser, user, api}: InpData) {
                 setLoadVisible(false);
             });
             res.catch((e: any)=>{
-                console.log('netErr');
+                console.error('Network error');
                 setLoadVisible(false);
             })
         }

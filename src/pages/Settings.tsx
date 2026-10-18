@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
 import Grow from '@mui/material/Grow';
 import Typography from '@mui/material/Typography';
 import {getGrowIn} from '../mech/mechanic';
@@ -27,14 +28,10 @@ export default function Settings({loadingMode, setLoadingMode, darkMode, setDark
         <Grow in={grow}>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Typography variant="h5" sx={{ color: darkMode?'white':'black', margin: '20px' }}>Настройки</Typography>
-                <Box sx={{ width: '90%', 
-                        maxWidth:600, 
-                        minWidth: 100,
-                        border: '2px solid dimgray',
-                        boxShadow: '0 0 10px dimgrey',
-                        borderRadius: '50px' }}>
+                <Paper elevation={8} sx={{ width: '90%', maxWidth: 900, minWidth: 100, boxSizing: 'border-box', p: { xs: 1.5, sm: 3 }, border: '2px solid dimgray', borderRadius: { xs: '28px', sm: '50px' }, backgroundColor: darkMode ? '#252936' : '#fff', color: darkMode ? '#fff' : 'inherit' }}>
                     <Box sx={{ 
                         display: 'flex',
+                        flexWrap: 'wrap',
                         justifyContent: 'center',
                         alignItems: 'center'
                     }}>
@@ -47,7 +44,6 @@ export default function Settings({loadingMode, setLoadingMode, darkMode, setDark
                                     width: 200
                                 }}
                                 onChange={({target}: SelectChangeEvent)=>{
-                                    console.log(typeof(target.value));
                                     setLoadingMode(Number(target.value));
                                     localStorage.setItem('listGLoadMode', target.value)
                                 }}
@@ -70,6 +66,7 @@ export default function Settings({loadingMode, setLoadingMode, darkMode, setDark
                     </Box>
                     <Box sx={{ 
                         display: 'flex',
+                        flexWrap: 'wrap',
                         justifyContent: 'center',
                         alignItems: 'center'
                     }}>
@@ -111,14 +108,13 @@ export default function Settings({loadingMode, setLoadingMode, darkMode, setDark
                             <Switch 
                                 checked={neonOn}
                                 onChange={(event: any)=>{
-                                    console.log(event.target.checked);
                                     setNeonOn(event.target.checked);
                                     localStorage.setItem('listGNeon', String(event.target.checked))
                                 }} />} 
                             label="Логотип" 
                         />
                     </Box>
-                </Box>
+                </Paper>
             </Box>
         </Grow>
     );

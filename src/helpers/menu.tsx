@@ -69,7 +69,7 @@ export default function MenuS(props: InpData) {
     };
 
     let imgStyle = {
-      zoom: '1.7',
+      fontSize: '34px',
       position: 'relative',
       color: darkTheme.palette.mode==='dark'?'white':'dimgray'
     }

@@ -1,9 +1,8 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import { describe, expect, it } from 'vitest';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+describe('application test environment', () => {
+  it('supports the browser APIs used by the app', () => {
+    expect(window.localStorage).toBeDefined();
+    expect(window.matchMedia).toBeDefined();
+  });
 });

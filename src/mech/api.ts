@@ -11,7 +11,7 @@ export default class sendApi {
                 const jsonHeader = {
                     "Content-type": "application/json",
                     "make": make,
-                    "authorization": '' || token
+                    "authorization": token
                 };
         
                 let send = axios.create({
@@ -20,11 +20,10 @@ export default class sendApi {
                     headers: jsonHeader
                 });
                 const res = await send.post(baseURL, obj);
-                console.log(res); 
                 return res;
             }
             catch(e: any) {
-                console.log(e)
+                console.error(e)
                 return (e.response)
             }
     }
