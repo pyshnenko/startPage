@@ -45,13 +45,11 @@ export default function FileButton({recipient, darkMode, sendMess, sendStatus, s
     }; 
 
     const onAbort = () => {
-        console.log('abort'); 
     }
 
     useEffect(()=>{
         if (trig.current) {
             //trig.current = false;
-            console.log('effect')
             loadController.signal.addEventListener('abort', onAbort);
 
             document.addEventListener('keyup', onKeyUp);
@@ -64,7 +62,6 @@ export default function FileButton({recipient, darkMode, sendMess, sendStatus, s
     }, [])
 
     const attFile = async (mode: string) => {
-        console.log(mode);
         let input = document.createElement('input');
         input.type = 'file';
         input.accept = mode===actions[0].name?'image/*':'application/*';
@@ -74,7 +71,6 @@ export default function FileButton({recipient, darkMode, sendMess, sendStatus, s
             let files = e.target.files;
             setSendTotal(files.length);
             for (let i = 0; i<files.length; i++) {
-                console.log(cyrillicToTranslit.transform(files[i].name, "_"));
                 let data = new FormData();
                 data.append('file', files[i]);
                 const options = {
@@ -90,7 +86,6 @@ export default function FileButton({recipient, darkMode, sendMess, sendStatus, s
                 }                
                 const response = await fetch('https://spamigor.ru/apiChat', options);
                 const res = await response.json();
-                console.log(res);
                 sendMess(`${mode===actions[0].name?'img:':'doc:'}|https://spamigor.ru/${encodeURI(res.addr)}`, null, recipient);
                 setSendCount(i+1);
             }

@@ -3,98 +3,94 @@ html, body, #root, #root>div, .App {
     min-height: 100vh;
 }
 
-.aClass {
-    cursor: default;
+/* Верхнее меню: подпись занимает место иконки при наведении */
+.aClass, .aClassW {
+    cursor: pointer;
     z-index: 10;
     text-decoration: none;
-    animation: centrb 0.4s forwards;
+    display: block;
+    color: inherit;
 }
-
-.aClass:hover {
+.aClass:hover, .aClassW:hover, .aClass:focus-visible, .aClassW:focus-visible {
     z-index: 999;
-    animation: centr 0.1s forwards;
 }
-
-.aClass:hover #img{
-    animation: hid 0.1s forwards;
+.button {
+    width: 100px;
+    height: 56px;
+    min-height: 56px;
+    margin: 0 2px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-radius: 0;
+    box-sizing: border-box;
+    transition: background-color .2s ease, box-shadow .2s ease;
 }
-
-.aClass:hover img{
-    animation: hid 0.1s forwards;
+.button #img, .button img {
+    opacity: 1;
+    transition: opacity .16s ease, transform .16s ease;
 }
-.aClass:hover .h1D{
-    animation: ofHid 0.1s 0.1s forwards;
-}
-
-.aClassW {
-    cursor: default;
-    z-index: 10;
-    text-decoration: none;
-    animation: centrbW 0.4s forwards;
-}
-
-.aClassW:hover {
-    z-index: 999;
-    animation: centrW 0.1s forwards;
-}
-
-.aClassW:hover #img{
-    animation: hid 0.1s forwards;
-}
-
-.aClassW:hover img{
-    animation: hid 0.1s forwards;
-}
-.aClassW:hover .h1W{
-    animation: ofHid 0.1s 0.1s forwards;
-}
-
 .h1D, .h1W {
     color: white;
     font-family: sans-serif;
-    font-size: large;
+    font-size: 15px;
+    line-height: 1.2;
     opacity: 0;
-    position: relative;
-    top: -46px;
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    transform: translateY(4px);
+    transition: opacity .16s ease, transform .16s ease;
 }
-.h1W {
-    color: dimgray;
+.h1W { color: #424858; }
+.aClass:hover .button, .aClassW:hover .button,
+.aClass:focus-visible .button, .aClassW:focus-visible .button {
+    background: #E0E1E1;
+    box-shadow: none;
+}
+.aClass:hover .button #img, .aClassW:hover .button #img,
+.aClass:hover .button img, .aClassW:hover .button img,
+.aClass:focus-visible .button #img, .aClassW:focus-visible .button #img {
     opacity: 0;
+    transform: scale(.82);
 }
-
-#doubleString {
-    top: -56px;
+.aClass:hover .h1D, .aClassW:hover .h1W,
+.aClass:focus-visible .h1D, .aClassW:focus-visible .h1W {
+    opacity: 1;
+    transform: translateY(0);
 }
-
-#img {
-    /*zoom: 0.4;*/
-    /*position: relative;*/
-}
-
+#doubleString { top: 0; }
+#img { flex-shrink: 0; }
 .barD, .barW {
     display: flex;
     flex-direction: row;
     align-items: center;
+    height: 60px;
+    box-sizing: border-box;
     border: 2px solid white;
     border-radius: 50px;
-    box-shadow: 0 0 10px white;
+    background: rgba(255, 255, 255, 0.48);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
     margin: 20px;
     animation: pulse 10s ease-in-out infinite;
 }
 
 .barW {
-    border: 2px solid dimgray;
-    box-shadow: 0 0 10px dimgray;
+    background: rgba(255, 255, 255, 0.82);
+    border: 2px solid rgba(255,255,255,.9);
+    box-shadow: 0 0 10px rgba(255,255,255,.8);
     animation: pulsW 10s ease-in-out infinite;
 }
-
-.button {
-    width: 100px;
-    height: 40px;
-    margin: 10px 5px;
-    text-align: center;
-}
-
 #fullBar {
     display: flex;
     flex-direction: column;
@@ -103,36 +99,27 @@ html, body, #root, #root>div, .App {
     justify-content: flex-start;
 }
 
-/*скругления 1 и последнего элемента*/
-.barD div:first-child {
-    border-radius: 50px 0 0 50px;
+/* Скругление выделения по форме родительского меню */
+.barD > div:first-child .button,
+.barW > div:first-child .button {
+    border-radius: 48px 0 0 48px;
 }
 
-.barD div:last-child {
-    border-radius: 0 50px 50px 0;
+.barD > div:last-child .button,
+.barW > div:last-child .button {
+    border-radius: 0 48px 48px 0;
 }
 
-.barD div:first-child>div>.h1D {
-    border-radius: 50px 0 0 50px;
+/* Не допускаем пустых полос у границ выделенного пункта */
+.barD > div,
+.barW > div {
+    display: flex;
+    align-items: stretch;
 }
 
-.barD div:last-child>div>.h1D {
-    border-radius: 0 50px 50px 0;
-}
-.barW div:first-child {
-    border-radius: 50px 0 0 50px;
-}
-
-.barW div:last-child {
-    border-radius: 0 50px 50px 0;
-}
-
-.barW div:first-child>div>.h1D {
-    border-radius: 50px 0 0 50px;
-}
-
-.barW div:last-child>div>.h1D {
-    border-radius: 0 50px 50px 0;
+.barD > div .button,
+.barW > div .button {
+    align-self: stretch;
 }
 
 /*Анимация группы A*/
@@ -234,4 +221,67 @@ html, body, #root, #root>div, .App {
     100% {
         box-shadow: -5px 0 5px black;
     }
+}
+/* Исправления размеров и контрастности меню */
+.barD, .barW {
+    height: 60px !important;
+    min-height: 60px !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    overflow: hidden;
+    align-items: stretch !important;
+}
+
+.barD > div, .barW > div,
+.barD > div > a, .barW > div > a,
+.barD > div > .aClass, .barD > div > .aClassW,
+.barW > div > .aClass, .barW > div > .aClassW {
+    height: 100% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    align-self: stretch !important;
+    box-sizing: border-box !important;
+}
+
+.barD .button, .barW .button {
+    height: 100% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* В тёмном режиме фон меню тёмный, а не светло-серый */
+.barD {
+    background: rgba(25, 29, 43, .88) !important;
+    border-color: rgba(255, 255, 255, .78) !important;
+}
+
+/* Контрастный текст на светлой подсветке */
+.h1D, .h1W {
+    color: #202536 !important;
+    font-weight: 600;
+}
+
+/* Подсветка заполняет весь пункт, включая крайние пиксели */
+.barD .aClass:hover .button,
+.barD .aClassW:hover .button,
+.barD .aClass:focus-visible .button,
+.barD .aClassW:focus-visible .button,
+.barW .aClass:hover .button,
+.barW .aClassW:hover .button,
+.barW .aClass:focus-visible .button,
+.barW .aClassW:focus-visible .button {
+    background: #dfe2e8 !important;
+}
+
+.barD > div:first-child .button,
+.barW > div:first-child .button {
+    border-radius: 48px 0 0 48px !important;
+}
+
+.barD > div:last-child .button,
+.barW > div:last-child .button {
+    border-radius: 0 48px 48px 0 !important;
 }

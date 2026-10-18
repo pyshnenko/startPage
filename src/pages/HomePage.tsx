@@ -78,7 +78,6 @@ export default function Menu({setUser, user, api, darkMode, width, setLogin, log
     const [ edit, setEdit ] = useState<any>({activate: false, name: user.name, first_name: user.first_name, last_name: user.last_name, email: user.email, telegram: user.telegram})
 
     const handleEditClick = () => {
-        console.log('click');
         let buf = {...edit};
         buf.activate=!edit.activate;
         setEdit(buf);
@@ -99,27 +98,23 @@ export default function Menu({setUser, user, api, darkMode, width, setLogin, log
         const response = await fetch('https://spamigor.ru/apiUpload', options);
         const res = await response.json();        
         let result = await api.sendPost({avatar: `https://spamigor.ru/${res.addr}`}, 'updUserData', `Bearer ${user.token}`);
-        console.log(result.data.data[0]);
         setUser(result.data.data[0]);
         setLoadVisible(false);
     }
 
     const handleEditClickCheck = async () => {
         setLoadVisible(true);
-        console.log('ready');
         let bufS: EdDataSend = {...edit};
         let res = await api.sendPost(bufS, 'updUserData', `Bearer ${user.token}`);
         setUser(res.data.data[0]);
         setEdit({activate: false, name: user.name, first_name: user.first_name, last_name: user.last_name, email: user.email, telegram: user.telegram});
-        console.log(res);
         setLoadVisible(false);
     }
 
     const handleValidClick = async (evt: any, index: string) => {
         setLoadVisible(true);
-        console.log('valid');
         if (index==='email') {
-            console.log(await api.sendPost({}, 'checkMail', `Bearer ${user.token}`));
+            await api.sendPost({}, 'checkMail', `Bearer ${user.token}`);
         }
         else if (index==='telegram') {
             let res = await api.sendPost({}, 'tgCheck', `Bearer ${user.token}`);
@@ -135,7 +130,7 @@ export default function Menu({setUser, user, api, darkMode, width, setLogin, log
     return (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
             {login&&<Grow in={grow}>
-                <Paper sx={{margin: 3, padding: 2, mwxWidth: 800}} elevation={12}>
+                <Paper sx={{ margin: { xs: '16px 0', sm: 3 }, padding: 2, width: { xs: '85vw', sm: 'auto' }, minWidth: { xs: '85vw', sm: 0 }, maxWidth: { xs: '85vw', sm: 1000 }, boxSizing: 'border-box', overflow: 'hidden' }} elevation={12}>
                     <Box sx={{ display: 'flex', flexDirection: width>500?'row':'column' }}>
                         <Box sx={{ margin: width>500?"0 25px 0 0":'0 0 20px 0' }}>
                             <IconButton color="primary" component="label">

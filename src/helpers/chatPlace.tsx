@@ -82,7 +82,6 @@ export default function ChatPlace(props: InpData) {
             shift.current = true;
         }
         if (e.code==='Enter') {
-            console.log(textRef.current);
             if (!shift.current) sendMess(textRef.current, chatMessArr.current, userRef.current);
         }
     };    
@@ -93,7 +92,7 @@ export default function ChatPlace(props: InpData) {
         }
     }; 
 
-    let scrollPos = useRef<HTMLElement>();
+    let scrollPos = useRef<HTMLElement | null>(null);
 
     useEffect(() => {
 
@@ -122,7 +121,7 @@ export default function ChatPlace(props: InpData) {
 
     useEffect(()=>{
         chatMessArr.current = chatMess;
-        if (scrollPos.current!==undefined) {
+        if (scrollPos.current) {
             scrollPos.current.scrollTo(0,scrollPos.current.scrollHeight);
             scrollPos.current.addEventListener('scroll', ()=>{
                 if ((scrollPos.current?.scrollTop)&&(scrollPos.current?.scrollTop<5)&&(countMessageRef.current<chatMessArr.current.length)) setCountMessage(countMessageRef.current+10);
@@ -185,7 +184,6 @@ export default function ChatPlace(props: InpData) {
                 }                
                 const response = await fetch('https://spamigor.ru/apiChat', options);
                 const res = await response.json();
-                console.log(res);
                 sendMess(`img:|https://spamigor.ru/${encodeURI(res.addr)}`, null, chatUser);
                 //setSendCount(i+1);
             }

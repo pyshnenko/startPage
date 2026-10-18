@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import './styles/blW.css';
 import './styles/neon.css';
+import './styles/glass.css';
 import Menu from './helpers/menu';
 import ColorModeButton from './helpers/colorModeButton';
 import Loading from './helpers/loading';
@@ -68,7 +69,6 @@ function App() {
         }
         locData='';
         locData += localStorage.getItem('listGState');
-        console.log(locData)
         if (locData!=='null' && locData!==null && locData !== '') {
           let buf: {login: boolean, state: string};
           buf = JSON.parse(locData);
@@ -76,7 +76,6 @@ function App() {
           locData += localStorage.getItem('listToken');
           if (locData!=='') {
             if (!login) {
-              console.log('upD');
               loadOptions(true);
               const answ = api.sendPost({}, 'login', `Bearer ${locData}`);
               answ.then((res: any)=>{
@@ -94,7 +93,6 @@ function App() {
                   stateSetter(buf.state);
                   setToken(locData);
                   setLogin(true);
-                  console.log('data upd');
                   loadOptions(false);
                   socketApi().post('/', {text: `На главной странице`, from: res.data.data[0].login})
                 }
@@ -118,7 +116,6 @@ function App() {
       const themeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
       const handleSetTheme = (theme: boolean) => {
-        console.log(theme);
         setDarkMode(theme)
       }
 
@@ -133,7 +130,6 @@ function App() {
   }, []);
 
   useEffect(()=>{
-    console.log(state);
     if (login) {
       if (state==='') stateSettings('home');
       else {
@@ -164,10 +160,10 @@ function App() {
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <Box sx={{backgroundColor: darkTheme.palette.background.default }}>
+      <Box className={`app-root ${darkMode ? 'theme-dark' : 'theme-light'}`} sx={{ backgroundColor: 'transparent', minHeight: '100vh' }}>
         {loadState&&<Loading mode={loadingMode} demo={false} />}
         {visual&&<Box id="black"></Box>}
-        <div className="App">
+        <div className={`App app-shell ${darkMode ? 'theme-dark' : 'theme-light'}`}>
           {neonOn&&
             <div id="neonDiv">
               <h2 id={darkMode?"neonH2F":"neonH2FW"}>Д</h2>

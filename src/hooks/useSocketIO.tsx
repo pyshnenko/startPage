@@ -30,7 +30,6 @@ export function useSocketIO(props: inpTypes) {
     if (props.hasOwnProperty('setConnectIO')) setConnectIO = props.setConnectIO;
 
     if (!connectS) {
-        console.log('hello');
         socket = io(URL, {
             autoConnect: true
         });
@@ -45,22 +44,18 @@ export function useSocketIO(props: inpTypes) {
     }    
 
     function onConnect() {
-        console.log('connect');
         connectS = true;
         setConnectIO(true);
-        console.log(user.login);
         socket.emit('chatStart', user.login);
         socket.emit('otherProject', JSON.stringify({from: user.login, text: 'шарится по главной'}));
     }
 
     function onDisconnect() {
-        console.log('disconnect')
         setConnectIO(false);
         //connectS = false;
     }
 
     function onUpdChat(value: string) {
-        //console.log(value);
         if (value!==null) 
         {
             let buf: any = JSON.parse(value);
@@ -69,20 +64,17 @@ export function useSocketIO(props: inpTypes) {
     }
 
     function sendIO (mess: any) {
-        console.log(mess);
         lastMessDat = {time: mess.time, login: mess.login};
         socket.emit('newMess', JSON.stringify(mess));
     }
 
     function onNewMess(value: string) {
-        console.log(value);
         let inpBuf = JSON.parse(value);
         //if ((inpBuf.time!==lastMessDat.time)||(inpBuf.login!==lastMessDat.login)) {
             let buf = copy(chatMess);
             buf.push(inpBuf);
             chatMess = buf;
             setChatMess(buf);
-            console.log(Notification.permission);
             if (("Notification" in window)&&(showMessage)) {
                 if (Notification.permission === "granted") {
                     new Notification(`${inpBuf.login}: ${inpBuf.text.join('\n')}`, notificationOptions);
@@ -99,7 +91,6 @@ export function useSocketIO(props: inpTypes) {
     }
 
     function onUserSelect(login: string) {
-        console.log(login);
         socket.emit('chatStart', login);
     }
 

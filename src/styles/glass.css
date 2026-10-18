@@ -1,0 +1,121 @@
+/* Glassmorphism refresh — presentation layer only; application logic is unchanged. */
+:root {
+  color-scheme: light;
+  --glass-radius: 22px;
+  --glass-blur: 18px;
+  --glass-accent: #7c5cff;
+  --glass-accent-2: #00bfa6;
+  --glass-text: #172033;
+  --glass-muted: #64708a;
+  --glass-border: rgba(255, 255, 255, .66);
+  --glass-panel: rgba(255, 255, 255, .66);
+  --glass-panel-strong: rgba(255, 255, 255, .82);
+  --glass-shadow: 0 18px 48px rgba(39, 50, 90, .12), inset 0 1px 0 rgba(255,255,255,.72);
+}
+
+html { min-width: 320px; background: #edf1ff; }
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  color: var(--glass-text);
+  background: #edf1ff;
+  background-image: radial-gradient(ellipse at 12% 8%, rgba(142, 124, 255, .26), transparent 38%),
+    radial-gradient(ellipse at 88% 18%, rgba(54, 215, 193, .22), transparent 34%),
+    linear-gradient(135deg, #f7f8ff 0%, #edf1ff 48%, #e9f7f7 100%);
+  background-attachment: fixed;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.app-root { min-height: 100vh; transition: color .25s ease, background .25s ease; }
+.app-shell { min-height: 100vh; padding: 1px 0 40px; box-sizing: border-box; color: var(--glass-text); }
+.app-root.theme-dark, .app-shell.theme-dark {
+  color-scheme: dark;
+  --glass-text: #f3f5ff;
+  --glass-muted: #aeb8d2;
+  --glass-border: rgba(255,255,255,.14);
+  --glass-panel: rgba(25, 31, 53, .62);
+  --glass-panel-strong: rgba(25, 31, 53, .82);
+  --glass-shadow: 0 20px 56px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.08);
+}
+body:has(.app-root.theme-dark) {
+  background-color: #0b1020;
+  background-image: radial-gradient(ellipse at 10% 6%, rgba(99, 74, 198, .24), transparent 38%),
+    radial-gradient(ellipse at 90% 18%, rgba(0, 175, 159, .14), transparent 34%),
+    linear-gradient(135deg, #0b1020 0%, #11182b 52%, #0d2029 100%);
+}
+
+/* Frosted surfaces */
+.MuiPaper-root {
+  color: var(--glass-text) !important;
+  background: var(--glass-panel) !important;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--glass-radius) !important;
+  box-shadow: var(--glass-shadow) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+}
+.MuiDrawer-paper, .MuiMenu-paper, .MuiPopover-paper {
+  background: var(--glass-panel-strong) !important;
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+}
+.MuiCard-root { overflow: hidden; }
+.MuiTypography-root { letter-spacing: -.012em; }
+.MuiTypography-h4, .MuiTypography-h5, .MuiTypography-h6 { font-weight: 700 !important; letter-spacing: -.035em; }
+
+/* Form controls */
+.MuiOutlinedInput-root, .MuiInputBase-root {
+  border-radius: 13px !important;
+  transition: background .18s ease, box-shadow .18s ease;
+}
+.MuiOutlinedInput-root { background: rgba(255,255,255,.12); }
+.MuiOutlinedInput-notchedOutline { border-color: rgba(128, 139, 170, .38) !important; }
+.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline { border-color: var(--glass-accent) !important; }
+.MuiOutlinedInput-root.Mui-focused { box-shadow: 0 0 0 3px rgba(124,92,255,.13); }
+.MuiInputLabel-root { color: var(--glass-muted) !important; }
+.MuiInputBase-input { color: var(--glass-text) !important; }
+.MuiButton-root {
+  min-height: 40px;
+  border-radius: 12px !important;
+  padding-inline: 17px !important;
+  font-weight: 650 !important;
+  letter-spacing: .01em !important;
+  text-transform: none !important;
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease !important;
+}
+.MuiButton-contained { box-shadow: 0 7px 18px rgba(86, 78, 185, .2) !important; }
+.MuiButton-contained:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(86, 78, 185, .27) !important; }
+.MuiButton-outlined { border-color: rgba(124,92,255,.42) !important; }
+.MuiIconButton-root { transition: background .18s ease, transform .18s ease !important; }
+.MuiIconButton-root:hover { transform: translateY(-1px); }
+.MuiDivider-root { border-color: rgba(128,139,170,.2) !important; }
+.MuiStepLabel-label { color: var(--glass-muted) !important; }
+
+/* Legacy neon branding remains available in settings, but no longer dominates layout. */
+#neonDiv { z-index: 0; pointer-events: none; }
+#neonDiv h2 { text-shadow: 0 0 20px rgba(0,191,166,.25); }
+#black { background: rgba(9,13,28,.35); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+
+/* Chat and content helpers */
+#guestForm { display: none; }
+#aboutPaper { background: var(--glass-panel) !important; }
+a { color: #7560e8; text-underline-offset: 3px; }
+a:hover { color: #00a995; }
+::selection { background: rgba(124,92,255,.24); }
+:focus-visible { outline: 3px solid rgba(124,92,255,.55); outline-offset: 3px; }
+
+@media (max-width: 1000px) {
+  .app-shell { padding-bottom: 72px; }
+}
+@media (max-width: 600px) {
+  :root { --glass-radius: 18px; --glass-blur: 14px; }
+  .MuiPaper-root { margin-left: 12px !important; margin-right: 12px !important; }
+  .MuiButton-root { min-height: 42px; }
+  #neonDiv { opacity: .35; transform: scale(.72); transform-origin: top right; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}

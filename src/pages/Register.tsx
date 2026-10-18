@@ -106,11 +106,9 @@ export default function Register({api}: inpProps) {
                 else handleComplete(false);
             }
             else if (activeStep===steps.length-1) {
-                console.log('end');
                 setLoadVisible(true);
                 let sjj = api.sendPost(inpData, 'reg', '' );
                 sjj.then((res: any)=>{
-                    console.log(res);
                     stateSettings('');
                     setLoadVisible(false);
                 })

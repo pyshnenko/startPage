@@ -12,6 +12,7 @@ save.sh
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store
@@ -21,5 +22,6 @@ save.sh
 .env.production.local
 
 npm-debug.log*
+.vite
 yarn-debug.log*
 yarn-error.log*
